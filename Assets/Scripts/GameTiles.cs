@@ -9,7 +9,7 @@ public class GameTiles : MonoBehaviour
 
     public Dictionary<Vector3, WorldTile> tiles;
 
-    public void DoTiles()
+    public void CreateTileDictionary()
     {
         if (instance == null)
         {
@@ -21,7 +21,6 @@ public class GameTiles : MonoBehaviour
         }
 
         GetWorldTiles();
-        Debug.Log(tiles.Count);
     }
 
     // Use this for initialization
@@ -33,17 +32,36 @@ public class GameTiles : MonoBehaviour
             var localPlace = new Vector3Int(pos.x, pos.y, pos.z);
 
             if (!Tilemap.HasTile(localPlace)) continue;
-            var tile = new WorldTile
+            
+            if (Tilemap.GetSprite(localPlace).ToString() == "wall0")
             {
-                LocalPlace = localPlace,
-                WorldLocation = Tilemap.CellToWorld(localPlace),
-                TileBase = Tilemap.GetTile(localPlace),
-                TilemapMember = Tilemap,
-                Name = Tilemap.GetSprite(localPlace).ToString(),//localPlace.x + "," + localPlace.y,
-                Cost = 1 // TODO: Change this with the proper cost from ruletile
+                var tile = new WorldTile
+                {
+                    LocalPlace = localPlace,
+                    WorldLocation = Tilemap.CellToWorld(localPlace),
+                    TileBase = Tilemap.GetTile(localPlace),
+                    TilemapMember = Tilemap,
+                    Name = Tilemap.GetSprite(localPlace).ToString(),
+                    Position = localPlace.x + "," + localPlace.y,
+                    Cost = 10, // TODO: Change this with the proper cost from ruletile
+                    isWalkable = false
+                };
+                tiles.Add(tile.WorldLocation, tile);
+            } else {
+                var tile = new WorldTile
+                {
+                    LocalPlace = localPlace,
+                    WorldLocation = Tilemap.CellToWorld(localPlace),
+                    TileBase = Tilemap.GetTile(localPlace),
+                    TilemapMember = Tilemap,
+                    Name = Tilemap.GetSprite(localPlace).ToString(),
+                    Position = localPlace.x + "," + localPlace.y,
+                    Cost = 1, // TODO: Change this with the proper cost from ruletile
+                    isWalkable = true
             };
-
             tiles.Add(tile.WorldLocation, tile);
+            }
+            
             
         }
     }

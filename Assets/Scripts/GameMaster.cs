@@ -4,18 +4,20 @@ public class GameMaster : MonoBehaviour {
     public GameObject map;
 	// Use this for initialization
 	void Start () {
-        RoomGenerator.CreateRoom();
+        CreateLevel();
+        AddEntities();
+	}
+
+    private void CreateLevel ()
+    {
+        MapRoom.CreateRoom();
+        map.GetComponent<GameTiles>().CreateTileDictionary();
+    }
+
+    private void AddEntities ()
+    {
+
         EntitySpawner.AddPlayer();
-        var GTiles = map.GetComponent<GameTiles>();
-        GTiles.DoTiles();
 
-    
-	}
-	
-
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 }

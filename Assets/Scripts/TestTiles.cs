@@ -20,7 +20,7 @@ public class TestTiles : MonoBehaviour
 
             if (tiles.TryGetValue(worldPoint, out _tile))
             {
-                print("Tile " + _tile.Name + " costs: " + _tile.Cost);
+                print("Tile " + _tile.Name + " costs: " + _tile.Cost + " position: " + _tile.Position);
                 _tile.TilemapMember.SetTileFlags(_tile.LocalPlace, TileFlags.None);
                 _tile.TilemapMember.SetColor(_tile.LocalPlace, Color.green);
             }
@@ -35,7 +35,7 @@ public class TestTiles : MonoBehaviour
 
             if (tiles.TryGetValue(worldPoint, out _tile))
             {
-                print("Tile " + _tile.Name + " costs: " + _tile.Cost);
+                print("Tile " + _tile.Name + " costs: " + _tile.Cost + " position: " + _tile.Position);
                 _tile.TilemapMember.SetTileFlags(_tile.LocalPlace, TileFlags.None);
                 _tile.TilemapMember.SetColor(_tile.LocalPlace, Color.green);
             }

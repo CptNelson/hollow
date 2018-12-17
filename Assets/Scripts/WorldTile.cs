@@ -15,6 +15,10 @@ public class WorldTile
 
     public string Name { get; set; }
 
+    public string Position { get; set; }
+
+    public bool isWalkable { get; set; }
+
     // Below is needed for Breadth First Searching
     public bool IsExplored { get; set; }
 
