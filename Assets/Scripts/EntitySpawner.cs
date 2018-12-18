@@ -3,43 +3,44 @@ using UnityEngine;
 
 public class EntitySpawner : ScriptableObject
 {
-    private static GameObject map = GameObject.Find("Map");
-    private static Grid grid = GameObject.Find("Map").GetComponent<Grid>();
-    private static GameObject entityObject;
-    private static Entity entity;
+    private static Grid grid;
+    //private static Entity entity;
     private static List<Entity> entitiesList;
+   
     private static EntityFactory factory;
-
-    //Adds entity(name is the prefab name) to map, to position.
-
+    private static Entity player;
+    private static GameObject temp;
+    
+    
     private static void CreateEntities()
     {
-        entitiesList = new List<Entity>();
+        grid = GameObject.Find("Map").GetComponent<Grid>();
+        entitiesList = GameMaster.entitiesList;
         factory = new EntityFactory();
 
-        Entity player = factory.NewPlayer();
+        player = factory.NewPlayer();
+        player.sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
+        
         Entity barbarian = factory.NewBarbarian();
-        //TODO: create helper method to add all at once
-        entitiesList.Add(player);
-        entitiesList.Add(barbarian);
-    }
+        barbarian.sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
 
-    public static void AddEntity(string name, Vector3Int position)
-    {
-        CreateEntities();
         for (int i = 0; i < entitiesList.Count; i++)
         {
             entitiesList[i].sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].position);
-            Instantiate(entitiesList[i].sprite, new Vector3(entitiesList[i].sprite.transform.position.x, entitiesList[i].sprite.transform.position.y, 0), Quaternion.identity);
         }
+        Debug.Log(entitiesList[0].name + " " + entitiesList[1].name);
+
     }
 
-    public static List<Entity> EntitiesList
+    public static void AddEntity()
     {
-        get { return entitiesList; }
-        set { entitiesList = value; }
+        CreateEntities();
     }
 
+    public static Entity Player
+    {
+        get { return player; }
+    }
 
 
 }

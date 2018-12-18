@@ -2,18 +2,19 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class EntityMover : ScriptableObject {
+public class EntityMover {
 
     private static WorldTile _tile;
-    private static GameObject map = GameObject.Find("Map");
+    private static GameObject map;
     private static List<Entity> entitiesList;
 
 
-    public static void MoveToPosition(int x, int y, GameObject entity)
+    public static void MoveToPosition(int x, int y, Entity entity)
     {
-        entitiesList = EntitySpawner.EntitiesList;
+        map = GameObject.Find("Map");
+        entitiesList = GameMaster.entitiesList;
 
-        Vector3Int oldCellPosition = map.GetComponent<GridLayout>().LocalToCell(entity.transform.localPosition);
+        Vector3Int oldCellPosition = entity.position;
         Vector3Int newCellPosition = new Vector3Int(oldCellPosition.x + x, oldCellPosition.y + y, 0);
 
 
@@ -21,16 +22,19 @@ public class EntityMover : ScriptableObject {
             {
                 if (_tile.isWalkable)
                 {
+                    //iterate all entitites and check if someone is already at target tile.
                     for (int i = 0; i < entitiesList.Count; i++)
                     {
                         if (entitiesList[i].position == newCellPosition)
                         {
-                            entity.transform.position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
-                        
+                        Debug.Log("there is someone!");
+                        return;
                         }
-                        else Debug.Log("there is someone!");
-                    }                    
-                }
+                    }
+                // if move is possible, update the entitys grid position and render position.
+                entity.position = newCellPosition;
+                entity.sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+            }
             else Debug.Log("you can't go there!");
         }
 
