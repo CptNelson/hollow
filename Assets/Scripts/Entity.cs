@@ -9,4 +9,10 @@ public class Entity
     public Vector3Int position { get; set; }
     public string name { get; set; }
     public GameObject sprite { get; set; }
+
+    public void MoveTo (int x, int y)
+        {
+        EntityMover.MoveToPosition(x, y, this);
+        }
+
 }
