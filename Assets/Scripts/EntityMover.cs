@@ -15,8 +15,9 @@ public class EntityMover : ScriptableObject {
 
             if (GameTiles.instance.tiles.TryGetValue(newCellPosition, out _tile))
             {
-                if (_tile.isWalkable)
+                if (_tile.isWalkable )
                 {
+                    //map.GetComponent<Grid>().GetComponent<Tilemap>().GetInstantiatedObject(newCellPosition) == false
                     entity.transform.position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
                 }
             }

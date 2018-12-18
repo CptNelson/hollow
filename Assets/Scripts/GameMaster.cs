@@ -16,8 +16,7 @@ public class GameMaster : MonoBehaviour {
 
     private void AddEntities ()
     {
-
-        EntitySpawner.AddPlayer();
-
+        EntitySpawner.AddEntity("player", new Vector3Int(3,3,0));
+        EntitySpawner.AddEntity("barbarian", new Vector3Int(5, 5, 0));
     }
 }
