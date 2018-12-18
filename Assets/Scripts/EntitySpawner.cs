@@ -16,21 +16,28 @@ public class EntitySpawner : ScriptableObject
     {
         entitiesList = new List<Entity>();
         factory = new EntityFactory();
-        Entity player =  factory.newPlayer();
-        Debug.Log(player);
+
+        Entity player = factory.NewPlayer();
+        Entity barbarian = factory.NewBarbarian();
+        //TODO: create helper method to add all at once
         entitiesList.Add(player);
+        entitiesList.Add(barbarian);
     }
 
     public static void AddEntity(string name, Vector3Int position)
     {
         CreateEntities();
-        Debug.Log(entitiesList[0]);
-        //entityObject = Resources.Load<GameObject>("Prefabs/" + name);
-        //entityObject.transform.position = grid.GetCellCenterLocal(position);
-        //Instantiate(entityObject, new Vector3(entityObject.transform.position.x, entityObject.transform.position.y, 0), Quaternion.identity);
-        entitiesList[0].sprite.transform.position = grid.GetCellCenterLocal(entitiesList[0].position);
-        Instantiate(entitiesList[0].sprite, new Vector3(entitiesList[0].sprite.transform.position.x, entitiesList[0].sprite.transform.position.y, 0), Quaternion.identity);
-        
+        for (int i = 0; i < entitiesList.Count; i++)
+        {
+            entitiesList[i].sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].position);
+            Instantiate(entitiesList[i].sprite, new Vector3(entitiesList[i].sprite.transform.position.x, entitiesList[i].sprite.transform.position.y, 0), Quaternion.identity);
+        }
+    }
+
+    public static List<Entity> EntitiesList
+    {
+        get { return entitiesList; }
+        set { entitiesList = value; }
     }
 
 
