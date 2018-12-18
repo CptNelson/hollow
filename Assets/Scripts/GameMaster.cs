@@ -10,7 +10,7 @@ public class GameMaster : MonoBehaviour {
 
     private void CreateLevel ()
     {
-        MapRoom.CreateRoom();
+        RoomGenerator.CreateRoom();
         map.GetComponent<GameTiles>().CreateTileDictionary();
     }
 

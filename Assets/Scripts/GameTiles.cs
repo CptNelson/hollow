@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -32,8 +33,11 @@ public class GameTiles : MonoBehaviour
             var localPlace = new Vector3Int(pos.x, pos.y, pos.z);
 
             if (!Tilemap.HasTile(localPlace)) continue;
-            
-            if (Tilemap.GetSprite(localPlace).ToString() == "wall0")
+
+            string wall = "wall0";
+            string thisTile = Tilemap.GetSprite(localPlace).ToString();
+
+            if (thisTile.CompareTo(wall) == 1) 
             {
                 var tile = new WorldTile
                 {
