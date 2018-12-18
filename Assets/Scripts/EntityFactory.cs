@@ -18,6 +18,7 @@ public class EntityFactory
         player.y = 1;
         player.position = new Vector3Int(player.x, player.y, 0);
         GameMaster.entitiesList.Add(player);
+        player.needsUserInput = true;
 
 
         return player;

@@ -26,6 +26,7 @@ public class EntitySpawner : ScriptableObject
 
         for (int i = 0; i < entitiesList.Count; i++)
         {
+            entitiesList[i].position = Utils.GetRandomEmptyPosition();
             entitiesList[i].sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].position);
         }
         Debug.Log(entitiesList[0].name + " " + entitiesList[1].name);

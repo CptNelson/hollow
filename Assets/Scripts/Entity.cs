@@ -9,6 +9,12 @@ public class Entity
     public Vector3Int position { get; set; }
     public string name { get; set; }
     public GameObject sprite { get; set; }
+    public bool needsUserInput = false;
+
+    public void DoAction()
+    {
+        Debug.Log(this.name);
+    }
 
     public void MoveTo (int x, int y)
         {
