@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
+//here is data and functions for the 'virtual' tiles. 
 public class WorldTile
 {
+
     public Vector3Int LocalPlace { get; set; }
 
     public Vector3 WorldLocation { get; set; }

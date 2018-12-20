@@ -18,7 +18,18 @@ public class Entity
 
     public void MoveTo (int x, int y)
         {
+
         EntityMover.MoveToPosition(x, y, this);
+        }
+
+    public void MoveToRandomDir()
+        {
+        int a = Utils.GetRandomInt(-1, 2);
+        int b = Utils.GetRandomInt(-1, 2);
+
+        Debug.Log(a + " " + b);
+
+        EntityMover.MoveToPosition(a, b, this);
         }
 
 }
