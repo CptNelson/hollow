@@ -7,8 +7,7 @@ public class EntitySpawner : ScriptableObject
 
     private static Grid grid;
     private static List<Entity> entitiesList;  
-    private static EntityFactory factory;
-    private static Entity player;
+    //private static Player player;
     private static GameObject temp;
     
     
@@ -16,28 +15,29 @@ public class EntitySpawner : ScriptableObject
     {
         grid = GameObject.Find("Map").GetComponent<Grid>();
         entitiesList = GameMaster.entitiesList;
-        factory = new EntityFactory();
 
         //create entity and add its prefab to entity.sprite.
         //then go over the entitylist and give them random starting positions.
-        player = factory.NewPlayer();
-        player.sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
+        var player = Player.Create();
+        entitiesList.Add(player);
+        player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
 
 
         barbarians = new List<Entity>();
         for (int i = 0; i < 3; i++)
         {
-            barbarians.Add(factory.NewBarbarian());
-            barbarians[i].sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
+            barbarians.Add(Barbarian.Create());
+            barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
+            entitiesList.Add(barbarians[i]);
         }
-
+        
         //Entity barbarian = factory.NewBarbarian();
         //barbarian.sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
 
         for (int i = 0; i < entitiesList.Count; i++)
         {
-            entitiesList[i].position = Utils.GetRandomEmptyPosition();
-            entitiesList[i].sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].position);
+            entitiesList[i].Position = Utils.GetRandomEmptyPosition();
+            entitiesList[i].Sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].Position);
         }
         //Debug.Log(entitiesList[0].name + " " + entitiesList[1].name);
 
@@ -48,10 +48,6 @@ public class EntitySpawner : ScriptableObject
         CreateEntities();
     }
 
-    public static Entity Player
-    {
-        get { return player; }
-    }
 
 
 }

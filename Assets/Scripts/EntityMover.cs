@@ -6,18 +6,18 @@ public class EntityMover {
 
     private static GameObject map;
 
-    public static void MoveToPosition(int x, int y, Entity entity)
+    public static void MoveToPosition(Entity _entity, int x, int y)
     {
         map = GameObject.Find("Map");
 
-        Vector3Int oldCellPosition = entity.position;
+        Vector3Int oldCellPosition = _entity.Position;
         Vector3Int newCellPosition = new Vector3Int(oldCellPosition.x + x, oldCellPosition.y + y, 0);
 
         if (Utils.IsTileEmpty(newCellPosition))
         {
                     // if move is possible, update the entitys grid position and render position.
-                    entity.position = newCellPosition;
-                    entity.sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+                    _entity.Position = newCellPosition;
+                    _entity.Sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
         }
     }
 }

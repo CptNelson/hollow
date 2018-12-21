@@ -1,36 +1,91 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
-public class GameMaster : MonoBehaviour {
+public class GameMaster : MonoBehaviour
+{
     public GameObject map;
     public static List<Entity> entitiesList;
     private Utils utils;
-    
+    //private Entity player;
+    //private PlayerController input;
+    private ActionManager actionManager;
 
-    private Engine engine;
+
     // Use this for initialization
-    void Start () {
-        
-       
+    void Start()
+    {
+
         CreateLevel();
         AddEntities();
-        engine = new Engine();
-        //engine.ProcessGame();
-        engine.Process();
-        
+        Debug.Log(entitiesList[0].NeedsUserInput);
+        StartCoroutine(GameLoop());
     }
 
-    private void CreateLevel ()
+    private void CreateLevel()
     {
         RoomGenerator.CreateRoom();
         map.GetComponent<GameTiles>().CreateTileDictionary();
     }
 
-    private void AddEntities ()
+    private void AddEntities()
     {
         entitiesList = new List<Entity>();
         EntitySpawner.AddEntity();
+        //player = entitiesList[0];      
     }
 
+
+    //If playing, loop entities list and update, and as for player input
+    private IEnumerator GameLoop()
+    {
+        //ActionManager actionManager = new ActionManager();
+
+        bool playing = true;
+
+        while (playing)
+        {
+            foreach (Entity entity in entitiesList)
+            {
+                if (entity.NeedsUserInput)
+                {
+                    // wait for player to do somethingg before continuing
+
+                    //yield return null;
+                    yield return PlayerController.WaitForKeyPress();
+                }
+                else
+                {
+                    //entity.doupdate();
+                    Debug.Log("ads");
+                }
+            }
+        }
+    }
+}
+
+public class ActionManager
+{
+    private readonly List<IAction> _actions = new List<IAction>();
+
+    public bool HasPendingAction
+    {
+        get { return _actions.Any(x => !x.IsCompleted); }
+    }
+
+    public void AddAction(IAction action)
+    {
+        _actions.Add(action);
+    }
+
+    public void ProcessActions()
+    {
+        // Apply transactions in the order they were added.
+        foreach (IAction action in _actions.Where(x => !x.IsCompleted))
+        {
+            action.Execute();
+        }
+    }
 }

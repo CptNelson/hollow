@@ -10,7 +10,7 @@ public class Utils
     private static Tilemap tilemap;
     //private static GameTiles tiles;
 
-    private static object syncObj = new object();
+    //private static object syncObj = new object();
 
     public static bool IsTileEmpty(Vector3Int position)
     {
@@ -19,7 +19,7 @@ public class Utils
         {
             for (int i = 0; i < entities.Count; i++)
             {
-                if (entities[i].position == position)
+                if (entities[i].Position == position)
                 {
                     //Debug.Log("there is someone!");
                     return false;
