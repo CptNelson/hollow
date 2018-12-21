@@ -13,6 +13,7 @@ public interface IEntity
     GameObject Sprite { get; set; }
     bool NeedsUserInput { get; set; }
 
+    EntityAI Ai { get; set; }
     string Name { get; set; }
     int Speed { get; set; }
 }
@@ -25,6 +26,8 @@ public class Entity : IEntity
     private Vector3Int _position;
     private GameObject _sprite;
     private bool _needsUserInput;
+
+    private EntityAI _ai;
     private string _name;
     private int _speed;
 
@@ -37,6 +40,7 @@ public class Entity : IEntity
     public GameObject Sprite { get { return _sprite; } set { _sprite = value; } }
     public bool NeedsUserInput { get { return _needsUserInput; } set { _needsUserInput = value; } }
 
+    public EntityAI Ai { get { return _ai; } set { _ai = value; } }
     public string Name { get { return _name; } set { _name = value; } }
     public int Speed { get { return _speed; } set { _speed = value; } }
 
@@ -69,7 +73,8 @@ public class Barbarian : Entity
 
     override public IAction GetAction()
     {
-        NextAction = new Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
+        BarbarianAI ai = new BarbarianAI();
+        NextAction = ai.chooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
         var action = NextAction;
         NextAction = null;
         return action;

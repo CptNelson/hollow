@@ -59,10 +59,8 @@ public class GameMaster : MonoBehaviour
                 }
                 else
                 {
-
                     actionManager.AddAction(entity.GetAction());
                     actionManager.ProcessActions();
-
                 }
             }
         }

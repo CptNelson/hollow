@@ -5,21 +5,22 @@ using UnityEngine;
 public abstract class EntityAI
 {
 
-    protected Entity entity;
+    protected Entity _entity;
 
 
-
-
-    public IAction GetAction(IAction _action)
-    {
-        return _action;
-    }
 }
 
 public class BarbarianAI : EntityAI
 {
-    public BarbarianAI(Entity entity)
+    public BarbarianAI()//Entity entity)
     {
+        //_entity = entity;
+    }
 
+    public IAction chooseAction(Entity entity)
+    {
+        if (Utils.GetRandomInt(0,2) == 0)
+        return new Walk(entity, 1, 1);
+        else return new Walk(entity, -1, -1);
     }
 }
