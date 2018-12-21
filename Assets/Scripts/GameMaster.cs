@@ -9,9 +9,9 @@ public class GameMaster : MonoBehaviour
     public GameObject map;
     public static List<Entity> entitiesList;
     private Utils utils;
-    //private Entity player;
+    public static Entity player;
     //private PlayerController input;
-    private ActionManager actionManager;
+    public static ActionManager actionManager;
 
 
     // Use this for initialization
@@ -34,14 +34,14 @@ public class GameMaster : MonoBehaviour
     {
         entitiesList = new List<Entity>();
         EntitySpawner.AddEntity();
-        //player = entitiesList[0];      
+        player = entitiesList[0];      
     }
 
 
     //If playing, loop entities list and update, and as for player input
     private IEnumerator GameLoop()
     {
-        //ActionManager actionManager = new ActionManager();
+        ActionManager actionManager = new ActionManager();
 
         bool playing = true;
 
@@ -55,11 +55,14 @@ public class GameMaster : MonoBehaviour
 
                     //yield return null;
                     yield return PlayerController.WaitForKeyPress();
+                    actionManager.AddAction(entity.GetAction());
                 }
                 else
                 {
-                    //entity.doupdate();
-                    Debug.Log("ads");
+
+                    actionManager.AddAction(entity.GetAction());
+                    actionManager.ProcessActions();
+
                 }
             }
         }
