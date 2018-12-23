@@ -34,9 +34,9 @@ public class GameTiles : MonoBehaviour
 
             if (!Tilemap.HasTile(localPlace)) continue;
 
-            string wall = "wall0";
+            string wall = "hash";
             string thisTile = Tilemap.GetSprite(localPlace).ToString();
-
+            
             if (thisTile.CompareTo(wall) == 1) 
             {
                 var tile = new WorldTile

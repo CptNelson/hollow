@@ -27,11 +27,11 @@ public class RoomGenerator
         }
     }
 
-    public static void CreateRoom()
+    public static void Create()
     {
         map = GameObject.Find("Map");
         tilemap = map.transform.GetChild(0).GetComponent<Tilemap>();
-        tileset = TileLoader.LoadTiles("Cave");
+        tileset = TileLoader.LoadTiles("Ascii");
         GenerateRoom();
     }
 }

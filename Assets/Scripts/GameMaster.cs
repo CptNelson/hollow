@@ -26,7 +26,7 @@ public class GameMaster : MonoBehaviour
 
     private void CreateLevel()
     {
-        RoomGenerator.CreateRoom();
+        DungeonGenerator.Create();
         map.GetComponent<GameTiles>().CreateTileDictionary();
     }
 
@@ -52,8 +52,6 @@ public class GameMaster : MonoBehaviour
                 if (entity.NeedsUserInput)
                 {
                     // wait for player to do somethingg before continuing
-
-                    //yield return null;
                     yield return PlayerController.WaitForKeyPress();
                     actionManager.AddAction(entity.GetAction());
                 }

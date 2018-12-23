@@ -76,7 +76,7 @@ public class Barbarian : Entity
         BarbarianAI ai = new BarbarianAI();
         NextAction = ai.chooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
         var action = NextAction;
-        NextAction = null;
+        //NextAction = new SayName(this);
         return action;
     }
 
