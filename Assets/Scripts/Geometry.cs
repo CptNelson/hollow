@@ -6,11 +6,13 @@ using UnityEngine.Tilemaps;
 public class Geometry : MonoBehaviour
 {
     private static WorldTile _tile;
+    private static GameTiles _gameTiles;
     private static Entity _player;
     private static Tilemap _tilemap = GameObject.Find("Map").transform.GetChild(0).GetComponent<Tilemap>();
     private static GameObject _map;
     private static List<Entity> entities;
 
+    //tee virtuaatileistä isExplored hommeli
 
     //entities = GameMaster.entitiesList;
     //    if (GameTiles.instance.tiles[position].isWalkable)
@@ -43,9 +45,14 @@ public class Geometry : MonoBehaviour
             for (var col = 0; col <= row; col++) {
                 var x = _player.Position.x + col;
                 var y = _player.Position.y + row;
-                
-                foreach(Entity entity in entities)
+
+                var color = _tilemap.GetColor(new Vector3Int(x, y, 0));
+                color.a = 1;
+                _tilemap.SetColor(new Vector3Int(x, y, 0), color);
+
+                foreach (Entity entity in entities)
                 {
+
                     //entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
                     if (entity.Position == new Vector3Int(x,y, 0))
                     {

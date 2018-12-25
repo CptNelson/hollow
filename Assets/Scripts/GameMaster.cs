@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 
 public class GameMaster : MonoBehaviour
 {
@@ -13,6 +13,8 @@ public class GameMaster : MonoBehaviour
     public static Entity player;
     //private PlayerController input;
     public static ActionManager actionManager;
+    private static Tilemap _tilemap;
+    
 
 
     // Use this for initialization
@@ -29,7 +31,6 @@ public class GameMaster : MonoBehaviour
     {
         DungeonGenerator.Create();
         map.GetComponent<GameTiles>().CreateTileDictionary();
-
     }
 
     private void AddEntities()
@@ -37,7 +38,12 @@ public class GameMaster : MonoBehaviour
         entitiesList = new List<Entity>();
         EntitySpawner.AddEntity();
         player = entitiesList[0];
-        
+        //set all entities visibility off except player's.
+        for (int i = 1; i < entitiesList.Count; i++)
+        {
+            entitiesList[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;
+        }
+
     }
 
 

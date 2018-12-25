@@ -101,7 +101,22 @@ public class DungeonGenerator : MonoBehaviour
         GenerateEmptyTiles(60);
         Smooth(2);
         GenerateWallTiles(14);
+        SetTilesInvisible();
 
+    }
+
+    public static void SetTilesInvisible()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                tilemap.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
+                var color = tilemap.GetColor(new Vector3Int(x, y, 0));
+                color.a = 0;
+                tilemap.SetColor(new Vector3Int(x, y, 0), color);
+            }
+        }
     }
 
     public static void Create()
