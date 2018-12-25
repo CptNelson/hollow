@@ -23,13 +23,26 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    private static void GenerateEmptyTiles()
+    private static void GenerateEmptyTiles(int amount)
     {
         for (int x = 1; x < width-1; x++){
             for (int y = 1; y < height-1; y++) {
                 int r = Utils.GetRandomInt(0, 100);
-                if (r < 50)
+                if (r < amount)
                 tilemap.SetTile(new Vector3Int(x, y, 0), tileset[0]);
+            }
+        }
+    }
+
+    private static void GenerateWallTiles(int amount)
+    {
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int y = 1; y < height - 1; y++)
+            {
+                int r = Utils.GetRandomInt(0, 100);
+                if (r < amount)
+                    tilemap.SetTile(new Vector3Int(x, y, 0), tileset[1]);
             }
         }
     }
@@ -83,8 +96,12 @@ public class DungeonGenerator : MonoBehaviour
     public static void CreateMap()
     {
         FillMap();
-        GenerateEmptyTiles();
-        Smooth(3);
+        GenerateEmptyTiles(50);
+        Smooth(5);
+        GenerateEmptyTiles(60);
+        Smooth(2);
+        GenerateWallTiles(14);
+
     }
 
     public static void Create()

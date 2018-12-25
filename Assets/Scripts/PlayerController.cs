@@ -18,6 +18,7 @@ public class PlayerController : ScriptableObject {
                 else if (Input.GetKeyDown("down")) { MoveTo(0, -1); }
                 else if (Input.GetKeyDown("left")) { MoveTo(-1, 0); }
                 else if (Input.GetKeyDown("right")) { MoveTo(1, 0); }
+               // else if (Input.GetKeyDown("space")) { Geometry.DrawOctant(); }
                 
                 done = true;
             }
@@ -28,7 +29,6 @@ public class PlayerController : ScriptableObject {
     public static void MoveTo(int x, int y)
     {
         GameMaster.player.NextAction = new Walk(GameMaster.player, x, y);
-        
     }
 }
 

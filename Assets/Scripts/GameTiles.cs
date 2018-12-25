@@ -6,9 +6,15 @@ using UnityEngine.Tilemaps;
 public class GameTiles : MonoBehaviour
 {
     public static GameTiles instance;
+
     public Tilemap Tilemap;
+    //public static GameObject _map;
+    //public static Tilemap _tempTilemap;
+
+
 
     public Dictionary<Vector3, WorldTile> tiles;
+
 
     public void CreateTileDictionary()
     {
@@ -23,6 +29,8 @@ public class GameTiles : MonoBehaviour
 
         GetWorldTiles();
     }
+
+
 
     // Use this for initialization
     private void GetWorldTiles()
@@ -69,4 +77,6 @@ public class GameTiles : MonoBehaviour
             
         }
     }
+
+   
 }

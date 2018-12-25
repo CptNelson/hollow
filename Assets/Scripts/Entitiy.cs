@@ -74,9 +74,10 @@ public class Barbarian : Entity
     override public IAction GetAction()
     {
         BarbarianAI ai = new BarbarianAI();
-        NextAction = ai.chooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
+        //NextAction = ai.chooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
+        NextAction = new SayName(this);
         var action = NextAction;
-        //NextAction = new SayName(this);
+        
         return action;
     }
 

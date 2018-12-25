@@ -52,8 +52,6 @@ public class Utils
     //This might be too heavy for many random numbers at same time
     public static int GetRandomInt(int min, int max)
     {
-        
-        Debug.Log(Random.Range(min, max));
         return Random.Range(min, max);
     }
 

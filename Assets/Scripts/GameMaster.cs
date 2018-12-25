@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
     public GameObject map;
+    public GameObject fovMap;
     public static List<Entity> entitiesList;
     private Utils utils;
     public static Entity player;
@@ -28,13 +29,15 @@ public class GameMaster : MonoBehaviour
     {
         DungeonGenerator.Create();
         map.GetComponent<GameTiles>().CreateTileDictionary();
+
     }
 
     private void AddEntities()
     {
         entitiesList = new List<Entity>();
         EntitySpawner.AddEntity();
-        player = entitiesList[0];      
+        player = entitiesList[0];
+        
     }
 
 
