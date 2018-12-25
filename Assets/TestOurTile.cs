@@ -11,8 +11,7 @@ public class TestOurTile : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
-        {
-         
+        {       
             Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var worldPoint = new Vector3Int(Mathf.FloorToInt(point.x), Mathf.FloorToInt(point.y), 0);
             
