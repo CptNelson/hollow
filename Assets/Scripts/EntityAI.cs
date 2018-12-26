@@ -4,10 +4,7 @@ using UnityEngine;
 
 public abstract class EntityAI
 {
-
     protected Entity _entity;
-
-
 }
 
 public class BarbarianAI : EntityAI

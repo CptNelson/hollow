@@ -23,7 +23,8 @@ public class GameMaster : MonoBehaviour
 
         CreateLevel();
         AddEntities();
-        Debug.Log(entitiesList[0].NeedsUserInput);
+        //Debug.Log(entitiesList[0].NeedsUserInput);
+        FOV.CreateFOV();
         StartCoroutine(GameLoop());
     }
 
@@ -94,6 +95,7 @@ public class ActionManager
         foreach (IAction action in _actions.Where(x => !x.IsCompleted))
         {
             action.Execute();
+            FOV.CreateFOV();
         }
     }
 }

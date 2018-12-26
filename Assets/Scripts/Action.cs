@@ -43,8 +43,7 @@ public class SayName : IAction
 
     public void Execute()
     {
-        //Debug.Log(_entity.Name);
-        Geometry.DrawOctant();
+        Debug.Log(_entity.Name);
         IsCompleted = true;
     }
 }
