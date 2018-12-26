@@ -28,17 +28,61 @@ public class Geometry : MonoBehaviour
         }
     }
 
+    //new Vector3Int(_player.Position.x + col, _player.Position.y + row, 0);
 
-    private static void DoTheFOV()
+    private static void GetPosition(int octant, int row, int col, out int X, out int Y)
     {
-        for (var row = 1; row < maxDistance; row++)
+        X = Y = 0;
+        switch (octant)
         {
-            for (var col = 0; col <= row; col++)
-            {
-                var x = _player.Position.x + col;
-                var y = _player.Position.y + row;
+            case 0:
+                X = _player.Position.x + col;
+                Y = _player.Position.y + row;
+                break;
+            case 1:
+                X = _player.Position.x - col;
+                Y = _player.Position.y - row;
+                break;
+            case 2:
+                X = _player.Position.x + col;
+                Y = _player.Position.y - row;
+                break;
+            case 3:
+                X = _player.Position.x - col;
+                Y = _player.Position.y + row;
+                break;
+            case 4:
+                X = _player.Position.x + row;
+                Y = _player.Position.y + col;
+                break;
+            case 5:
+                X = _player.Position.x - row;
+                Y = _player.Position.y - col;
+                break;
+            case 6:
+                X = _player.Position.x + row;
+                Y = _player.Position.y - col;
+                break;
+            case 7:
+                X = _player.Position.x - row;
+                Y = _player.Position.y + col;
+                break;
+        }
+    }
 
-                var worldPoint = new Vector3Int(x, y, 0);
+    private static void DoTheFOV(int octant)
+    {
+        int row;
+        int col;
+        int X;
+        int Y;
+        for (row = 1; row < maxDistance; row++) {
+            for (col = 0; col <= row; col++) {
+
+                // GetPosition gets different positions depending on what octant iteration we are at.
+                GetPosition(octant, row, col, out X, out Y);
+
+                var worldPoint = new Vector3Int(X, Y, 0);
                 if (_gameTiles.TryGetValue(worldPoint, out _tile))
                 {
                     var color = _tile.TilemapMember.GetColor(_tile.LocalPlace);
@@ -46,12 +90,11 @@ public class Geometry : MonoBehaviour
                     _tile.IsExplored = true;
                     _tile.TilemapMember.SetColor(_tile.LocalPlace, color);
                 }
-
                 //show entities
                 foreach (Entity entity in entities)
                 {
 
-                    if (entity.Position == new Vector3Int(x, y, 0))
+                    if (entity.Position == new Vector3Int(X, Y, 0))
                     {
                         entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
                     }
@@ -73,13 +116,21 @@ public class Geometry : MonoBehaviour
     {
         entities = GameMaster.entitiesList;
         _player = GameMaster.player;
-      
+
         _gameTiles = GameTiles.instance.tiles;
 
         HideEntities();
         CheckIfExplored();
-        DoTheFOV();
+
+        // iterate to make a full square from octants
+        for (int octant = 0; octant < 8; octant++)
+        {
+            DoTheFOV(octant);
+        }
         
+
+
+
 
     }
 }
