@@ -30,44 +30,28 @@ public class Geometry : MonoBehaviour
 
     //new Vector3Int(_player.Position.x + col, _player.Position.y + row, 0);
 
-    private static void GetPosition(int octant, int row, int col, out int X, out int Y)
+    private static Vector3Int GetPosition(int octant, int row, int col)
     {
-        X = Y = 0;
         switch (octant)
         {
             case 0:
-                X = _player.Position.x + col;
-                Y = _player.Position.y + row;
-                break;
+                return new Vector3Int(_player.Position.x + col, _player.Position.y + row, 0);
             case 1:
-                X = _player.Position.x - col;
-                Y = _player.Position.y - row;
-                break;
+                return new Vector3Int(_player.Position.x - col, _player.Position.y - row, 0);
             case 2:
-                X = _player.Position.x + col;
-                Y = _player.Position.y - row;
-                break;
+                return new Vector3Int(_player.Position.x - col, _player.Position.y + row, 0);
             case 3:
-                X = _player.Position.x - col;
-                Y = _player.Position.y + row;
-                break;
+                return new Vector3Int(_player.Position.x + col, _player.Position.y - row, 0);
             case 4:
-                X = _player.Position.x + row;
-                Y = _player.Position.y + col;
-                break;
+                return new Vector3Int(_player.Position.x + row, _player.Position.y + col, 0);
             case 5:
-                X = _player.Position.x - row;
-                Y = _player.Position.y - col;
-                break;
+                return new Vector3Int(_player.Position.x - row, _player.Position.y - col, 0);
             case 6:
-                X = _player.Position.x + row;
-                Y = _player.Position.y - col;
-                break;
+                return new Vector3Int(_player.Position.x + row, _player.Position.y - col, 0);
             case 7:
-                X = _player.Position.x - row;
-                Y = _player.Position.y + col;
-                break;
+                return new Vector3Int(_player.Position.x - row, _player.Position.y + col, 0);
         }
+        return new Vector3Int(_player.Position.x - row, _player.Position.y + col, 0);
     }
 
     private static void DoTheFOV(int octant)
@@ -80,9 +64,8 @@ public class Geometry : MonoBehaviour
             for (col = 0; col <= row; col++) {
 
                 // GetPosition gets different positions depending on what octant iteration we are at.
-                GetPosition(octant, row, col, out X, out Y);
+                var worldPoint = GetPosition(octant, row, col);
 
-                var worldPoint = new Vector3Int(X, Y, 0);
                 if (_gameTiles.TryGetValue(worldPoint, out _tile))
                 {
                     var color = _tile.TilemapMember.GetColor(_tile.LocalPlace);
@@ -94,7 +77,7 @@ public class Geometry : MonoBehaviour
                 foreach (Entity entity in entities)
                 {
 
-                    if (entity.Position == new Vector3Int(X, Y, 0))
+                    if (entity.Position == worldPoint)
                     {
                         entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
                     }
