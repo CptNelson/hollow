@@ -24,7 +24,7 @@ public class EntitySpawner : ScriptableObject
 
 
         barbarians = new List<Entity>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 1; i++)
         {
             barbarians.Add(Barbarian.Create());
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));

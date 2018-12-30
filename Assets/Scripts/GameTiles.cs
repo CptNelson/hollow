@@ -41,33 +41,56 @@ public class GameTiles : MonoBehaviour
 
             if (!Tilemap.HasTile(localPlace)) continue;
 
-            string wall = "hash";
+            string wall = "wall";
+            string bush = "bush";
+            string ground = "ground";
             string thisTile = Tilemap.GetSprite(localPlace).ToString();
             
             if (thisTile.CompareTo(wall) == 1) 
             {
                 var tile = new WorldTile
                 {
+                    // wall
                     LocalPlace = localPlace,
                     WorldLocation = Tilemap.CellToWorld(localPlace),
                     TileBase = Tilemap.GetTile(localPlace),
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
-                    Cost = 10, // TODO: Change this with the proper cost from ruletile
+                    Cost = 420, 
                     isWalkable = false
                 };
                 tiles.Add(tile.WorldLocation, tile);
-            } else {
+            }
+
+            else if (thisTile.CompareTo(bush) == 1)
+            {
                 var tile = new WorldTile
                 {
+                    // bush
                     LocalPlace = localPlace,
                     WorldLocation = Tilemap.CellToWorld(localPlace),
                     TileBase = Tilemap.GetTile(localPlace),
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
-                    Cost = 1, // TODO: Change this with the proper cost from ruletile
+                    Cost = 4,
+                    isWalkable = true
+                };
+                tiles.Add(tile.WorldLocation, tile);
+            }
+            else if (thisTile.CompareTo(ground) == 1) 
+            {
+                var tile = new WorldTile
+                {
+                    // ground
+                    LocalPlace = localPlace,
+                    WorldLocation = Tilemap.CellToWorld(localPlace),
+                    TileBase = Tilemap.GetTile(localPlace),
+                    TilemapMember = Tilemap,
+                    Name = Tilemap.GetSprite(localPlace).ToString(),
+                    Position = localPlace.x + "," + localPlace.y,
+                    Cost = 0, 
                     isWalkable = true
             };
             tiles.Add(tile.WorldLocation, tile);

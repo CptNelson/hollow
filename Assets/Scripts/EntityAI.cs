@@ -16,8 +16,6 @@ public class BarbarianAI : EntityAI
 
     public IAction chooseAction(Entity entity)
     {
-        if (Utils.GetRandomInt(0,2) == 0)
-        return new Walk(entity, 1, 1);
-        else return new Walk(entity, -1, -1);
+        return new GoTo(entity, entity.Position, GameMaster.entitiesList[0].Position);
     }
 }

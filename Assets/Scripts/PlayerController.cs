@@ -14,12 +14,12 @@ public class PlayerController : ScriptableObject {
         {
             if (Input.anyKeyDown)
             {
-                if (Input.GetKeyDown("up")) { MoveTo(0, 1); }
-                else if (Input.GetKeyDown("down")) { MoveTo(0, -1); }
-                else if (Input.GetKeyDown("left")) { MoveTo(-1, 0); }
-                else if (Input.GetKeyDown("right")) { MoveTo(1, 0); }
-               // else if (Input.GetKeyDown("space")) { Geometry.DrawOctant(); }
-                
+                if (Input.GetKey("up")) { MoveTo(0, 1); }
+                else if (Input.GetKey("down")) { MoveTo(0, -1); }
+                else if (Input.GetKey("left")) { MoveTo(-1, 0); }
+                else if (Input.GetKey("right")) { MoveTo(1, 0); }
+                else if (Input.GetKeyDown(KeyCode.Space)) { GameMaster.player.NextAction = new SayName(GameMaster.player); }
+                else yield return null;
                 done = true;
             }
             yield return null; // wait until next frame, then continue execution from here (loop continues)
@@ -30,5 +30,7 @@ public class PlayerController : ScriptableObject {
     {
         GameMaster.player.NextAction = new Walk(GameMaster.player, x, y);
     }
+
+
 }
 

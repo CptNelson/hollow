@@ -14,7 +14,8 @@ public class GameMaster : MonoBehaviour
     //private PlayerController input;
     public static ActionManager actionManager;
     private static Tilemap _tilemap;
-    
+    public static int width = 35;
+    public static int height = 35;
 
 
     // Use this for initialization
@@ -25,12 +26,15 @@ public class GameMaster : MonoBehaviour
         AddEntities();
         //Debug.Log(entitiesList[0].NeedsUserInput);
         FOV.CreateFOV();
+        
+        
         StartCoroutine(GameLoop());
+
     }
 
     private void CreateLevel()
     {
-        DungeonGenerator.Create();
+        DungeonGenerator.Create(width, height);
         map.GetComponent<GameTiles>().CreateTileDictionary();
     }
 

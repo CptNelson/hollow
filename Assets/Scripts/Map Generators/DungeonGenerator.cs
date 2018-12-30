@@ -6,17 +6,18 @@ using UnityEngine.Tilemaps;
 public class DungeonGenerator : MonoBehaviour
 {
 
-    private static int height = 32;
-    private static int width = 70;
+
     private static Tile[] tileset;
     private static Tilemap tilemap;
     private static GameObject map;
+    private static int _width;
+    private static int _height;
 
     private static void FillMap()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < _height; y++)
             {
                 tilemap.SetTile(new Vector3Int(x, y, 0), tileset[1]);
             }
@@ -25,8 +26,8 @@ public class DungeonGenerator : MonoBehaviour
 
     private static void GenerateEmptyTiles(int amount)
     {
-        for (int x = 1; x < width-1; x++){
-            for (int y = 1; y < height-1; y++) {
+        for (int x = 1; x < _width-1; x++){
+            for (int y = 1; y < _height-1; y++) {
                 int r = Utils.GetRandomInt(0, 100);
                 if (r < amount)
                 tilemap.SetTile(new Vector3Int(x, y, 0), tileset[0]);
@@ -34,11 +35,25 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+
+    private static void GenerateBushTiles(int amount)
+    {
+        for (int x = 1; x < _width - 1; x++)
+        {
+            for (int y = 1; y < _height - 1; y++)
+            {
+                int r = Utils.GetRandomInt(0, 100);
+                if (r < amount)
+                    tilemap.SetTile(new Vector3Int(x, y, 0), tileset[2]);
+            }
+        }
+    }
+
     private static void GenerateWallTiles(int amount)
     {
-        for (int x = 1; x < width - 1; x++)
+        for (int x = 1; x < _width - 1; x++)
         {
-            for (int y = 1; y < height - 1; y++)
+            for (int y = 1; y < _height - 1; y++)
             {
                 int r = Utils.GetRandomInt(0, 100);
                 if (r < amount)
@@ -53,9 +68,9 @@ public class DungeonGenerator : MonoBehaviour
         Tilemap tempTiles = tilemap;
         for (int time = 0; time < times; time++)
         {
-            for (int x = 1; x < width-1; x++)
+            for (int x = 1; x < _width-1; x++)
             {
-                for (int y = 1; y < height-1; y++)
+                for (int y = 1; y < _height-1; y++)
                 {
                      int grounds = 0;
                         int walls = 0;
@@ -64,10 +79,10 @@ public class DungeonGenerator : MonoBehaviour
                         {
                             for (int oy = -1; oy < 2; oy++)
                             {
-                                if (x + ox < 0 || x + ox >= width || y + oy < 0
-                                        || y + oy >= height)
+                                if (x + ox < 0 || x + ox >= _width || y + oy < 0
+                                        || y + oy >= _height)
                                     continue;
-                                if (tilemap.GetTile(new Vector3Int(x +ox,y +oy,0)).name == "ground0")
+                                if (tilemap.GetTile(new Vector3Int(x +ox,y +oy,0)).name == "00ground0")
                                     grounds++;
                                 else
                                     walls++;
@@ -85,13 +100,7 @@ public class DungeonGenerator : MonoBehaviour
         }
 
     
-    private void Enclose()
-    {
-        for (int x = 0; x < width; x++)
-        {
 
-        }
-    }
 
     public static void CreateMap()
     {
@@ -100,16 +109,16 @@ public class DungeonGenerator : MonoBehaviour
         Smooth(5);
         GenerateEmptyTiles(60);
         Smooth(2);
-        GenerateWallTiles(14);
+        GenerateBushTiles(4);
         SetTilesInvisible();
 
     }
 
     public static void SetTilesInvisible()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < _height; y++)
             {
                 tilemap.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
                 var color = tilemap.GetColor(new Vector3Int(x, y, 0));
@@ -119,8 +128,10 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    public static void Create()
+    public static void Create(int width, int height)
     {
+        _width = width;
+        _height = height;
         map = GameObject.Find("Map");
         tilemap = map.transform.GetChild(0).GetComponent<Tilemap>();
         tileset = TileLoader.LoadTiles("Ascii");
