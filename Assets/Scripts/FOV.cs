@@ -12,7 +12,7 @@ public class FOV : MonoBehaviour
     private static Tilemap _tilemap = GameObject.Find("Map").transform.GetChild(0).GetComponent<Tilemap>();
     private static GameObject _map;
     private static List<Entity> _entities;
-    private static readonly int maxDistance = 40;
+    private static readonly int maxDistance = 10;
 
 
     public static void CreateFOV()

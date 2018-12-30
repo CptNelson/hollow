@@ -14,8 +14,8 @@ public class GameMaster : MonoBehaviour
     //private PlayerController input;
     public static ActionManager actionManager;
     private static Tilemap _tilemap;
-    public static int width = 35;
-    public static int height = 35;
+    public static int width = 60;
+    public static int height = 60;
 
 
     // Use this for initialization
