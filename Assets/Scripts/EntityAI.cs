@@ -31,6 +31,17 @@ public class BarbarianAI : EntityAI
         {
             _action = null;
         }
+        //patrol until sees player, then go to player
+        var entitiesInFov = FOV.UpdateEntityFOV(_entity, 10);
+
+        foreach(Entity foventity in entitiesInFov)
+        {
+            Debug.Log("foventity " + foventity.ToString());
+            if (foventity.ToString() == "Player")
+            {
+                _entity.Goal = foventity.Position;
+            }
+        }
 
         if (_entity.Goal == new Vector3Int(-1, -1, -1))
         {

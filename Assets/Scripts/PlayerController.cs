@@ -8,7 +8,7 @@ public class PlayerController : ScriptableObject {
 
     public static IEnumerator WaitForKeyPress()
     {
-
+        FOV.UpdatePlayerFOV();
         bool done = false;
         while (!done) // essentially a "while true", but with a bool to break out naturally
         {

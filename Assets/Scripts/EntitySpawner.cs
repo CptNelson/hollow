@@ -19,19 +19,18 @@ public class EntitySpawner : ScriptableObject
         //create entity and add its prefab to entity.sprite.
         //then go over the entitylist and give them random starting positions.
         Player player = new Player();
-        //player.Fov = new FOV(player, 12);
+
         entitiesList.Add(player);
        
         player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
-        player.Fov = new FOV();
+       // player.Fov = new FOV();
 
         barbarians = new List<Entity>();
         for (int i = 0; i < 1; i++)
         {
             barbarians.Add(new Barbarian());
-            barbarians[i].Fov = new FOV();
+            //barbarians[i].Fov = new FOV();
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
-            //barbarians[i].Fov = new FOV(barbarians[i], 12);
             entitiesList.Add(barbarians[i]);
         }
         
@@ -41,6 +40,7 @@ public class EntitySpawner : ScriptableObject
         for (int i = 0; i < entitiesList.Count; i++)
         {
             entitiesList[i].Position = Utils.GetRandomEmptyPosition();
+            Debug.Log("player Pos: " + entitiesList[0].Position);
             entitiesList[i].Sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].Position);
         }
         //Debug.Log(entitiesList[0].name + " " + entitiesList[1].name);
