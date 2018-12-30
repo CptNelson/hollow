@@ -29,6 +29,46 @@ public class Walk : IAction
         IsCompleted = true;
     }
 }
+
+
+public class Patrol : IAction
+{
+    private readonly Entity _entity;
+    private readonly Vector3Int _goal;
+    private List<Vector3Int>_path;
+
+    public bool IsCompleted { get; set; }
+
+    public Patrol(Entity entity, Vector3Int goal)
+    {
+        _entity = entity;
+        _goal = goal;
+        List<Vector3Int> path = new List<Vector3Int>();
+        _path = GetAStarPath.ReconstructPath(_entity.Position, _goal);
+
+        if (_path.Count <=1)
+        {
+            Debug.Log("done!");
+            _entity.Goal = Utils.GetRandomEmptyPosition();
+            _path.Clear();
+            _path = GetAStarPath.ReconstructPath(_entity.Position, _goal);
+            Debug.Log("new: " + _path[0]);
+        }
+
+        IsCompleted = false;
+    }
+
+    public void Execute()
+    {
+
+
+        EntityMover.MoveToCell(_entity, _path[0].x, _path[0].y);
+        IsCompleted = true;
+        
+    }
+}
+
+
 public class SayName : IAction
 {
     private readonly Entity _entity;

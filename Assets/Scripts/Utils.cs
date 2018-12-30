@@ -12,6 +12,14 @@ public class Utils
 
     //private static object syncObj = new object();
 
+    public static readonly Vector3Int[] DIRS = new[]
+    {
+            new Vector3Int(1, 0,0),
+            new Vector3Int(0, -1,0),
+            new Vector3Int(-1, 0,0),
+            new Vector3Int(0, 1,0)
+        };
+
     public static bool IsTileEmpty(Vector3Int position)
     {
         entities = GameMaster.entitiesList;

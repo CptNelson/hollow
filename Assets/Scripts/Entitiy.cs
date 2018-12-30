@@ -12,6 +12,7 @@ public interface IEntity
     Vector3Int Position { get; set; }
     GameObject Sprite { get; set; }
     bool NeedsUserInput { get; set; }
+    Vector3Int Goal { get; set; }
 
     EntityAI Ai { get; set; }
     string Name { get; set; }
@@ -26,6 +27,7 @@ public class Entity : IEntity
     private Vector3Int _position;
     private GameObject _sprite;
     private bool _needsUserInput;
+    private Vector3Int _goal = new Vector3Int(-1,-1,-1);
 
     private EntityAI _ai;
     private string _name;
@@ -35,7 +37,8 @@ public class Entity : IEntity
     public int X { get { return _x; } set { _x = value; } }
     public int Y { get { return _y; } set { _y = value; } }
     public Vector3Int Position { get { return _position; } set { _position = value; } }
-
+    public Vector3Int Goal { get { return _goal; } set { _goal = value; } }
+   
 
     public GameObject Sprite { get { return _sprite; } set { _sprite = value; } }
     public bool NeedsUserInput { get { return _needsUserInput; } set { _needsUserInput = value; } }
@@ -43,6 +46,11 @@ public class Entity : IEntity
     public EntityAI Ai { get { return _ai; } set { _ai = value; } }
     public string Name { get { return _name; } set { _name = value; } }
     public int Speed { get { return _speed; } set { _speed = value; } }
+
+    public void ResetGoal()
+    {
+        Goal = new Vector3Int(-1, -1, -1);
+    }
 
     public virtual void SetNextAction(IAction action)
     {

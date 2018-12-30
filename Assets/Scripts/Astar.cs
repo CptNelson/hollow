@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-//DO TO: Change Location to Vector3Int 
+// https://www.redblobgames.com/pathfinding/a-star/implementation.html
 
 // A* needs only a WeightedGraph and a location type L, and does *not*
 // have to be a grid. However, in the example code I am using a grid.
 public interface WeightedGraph<L>
 {
-    double Cost(Vector3Int a, Vector3Int b);
+    int Cost(Vector3Int a, Vector3Int b);
     IEnumerable<Vector3Int> Neighbors(Vector3Int id);
 }
-
 
 
 public class WeightedSquareGrid : WeightedGraph<Vector3Int>
@@ -50,7 +49,7 @@ public class WeightedSquareGrid : WeightedGraph<Vector3Int>
         return !walls.Contains(id);
     }
 
-    public double Cost(Vector3Int a, Vector3Int b)
+    public int Cost(Vector3Int a, Vector3Int b)
     {
         return bushes.Contains(b) ? 5 : 1;
     }
@@ -81,14 +80,14 @@ public class PriorityQueue<T>
     // * http://xfleury.github.io/graphsearch.html
     // * http://stackoverflow.com/questions/102398/priority-queue-in-net
 
-    private List<Tuple<T, double>> elements = new List<Tuple<T, double>>();
+    private List<Tuple<T, int>> elements = new List<Tuple<T, int>>();
 
     public int Count
     {
         get { return elements.Count; }
     }
 
-    public void Enqueue(T item, double priority)
+    public void Enqueue(T item, int priority)
     {
         elements.Add(Tuple.Create(item, priority));
     }
@@ -112,24 +111,17 @@ public class PriorityQueue<T>
 }
 
 
-/* NOTE about types: in the main article, in the Python code I just
- * use numbers for costs, heuristics, and priorities. In the C++ code
- * I use a typedef for this, because you might want int or double or
- * another type. In this C# code I use double for costs, heuristics,
- * and priorities. You can use an int if you know your values are
- * always integers, and you can use a smaller size number if you know
- * the values are always small. */
 
 public class AStarSearch
 {
     public Dictionary<Vector3Int, Vector3Int> cameFrom
         = new Dictionary<Vector3Int, Vector3Int>();
-    public Dictionary<Vector3Int, double> costSoFar
-        = new Dictionary<Vector3Int, double>();
+    public Dictionary<Vector3Int, int> costSoFar
+        = new Dictionary<Vector3Int, int>();
 
     // Note: a generic version of A* would abstract over Location and
     // also Heuristic
-    static public double Heuristic(Vector3Int a, Vector3Int b)
+    static public int Heuristic(Vector3Int a, Vector3Int b)
     {
         return Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y);
     }
@@ -153,13 +145,13 @@ public class AStarSearch
 
             foreach (var next in graph.Neighbors(current))
             {
-                double newCost = costSoFar[current]
+                int newCost = costSoFar[current]
                     + graph.Cost(current, next);
                 if (!costSoFar.ContainsKey(next)
                     || newCost < costSoFar[next])
                 {
                     costSoFar[next] = newCost;
-                    double priority = newCost + Heuristic(next, goal);
+                    int priority = newCost + Heuristic(next, goal);
                     frontier.Enqueue(next, priority);
                     cameFrom[next] = current;
                 }
@@ -197,7 +189,6 @@ public class GetAStarPath
         astar = new AStarSearch(grid, new Vector3Int(start.x, start.y,0),
                                    new Vector3Int(goal.x, goal.y,0));
 
-
         var _current = goal;
         List<Vector3Int> path = new List<Vector3Int>();
         
@@ -206,9 +197,8 @@ public class GetAStarPath
             path.Add(_current);
             _current = astar.cameFrom[_current];
         }
+        
         path.Reverse();
         return path;
     }
-
-
 }
