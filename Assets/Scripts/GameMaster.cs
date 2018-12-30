@@ -16,6 +16,7 @@ public class GameMaster : MonoBehaviour
     private static Tilemap _tilemap;
     public static int width = 60;
     public static int height = 60;
+    EntitySpawner _entitySpawner;
 
 
     // Use this for initialization
@@ -25,7 +26,7 @@ public class GameMaster : MonoBehaviour
         CreateLevel();
         AddEntities();
         //Debug.Log(entitiesList[0].NeedsUserInput);
-        FOV.CreateFOV();
+        //FOV.CreateFOV();
         
         
         StartCoroutine(GameLoop());
@@ -41,7 +42,8 @@ public class GameMaster : MonoBehaviour
     private void AddEntities()
     {
         entitiesList = new List<Entity>();
-        EntitySpawner.AddEntity();
+        _entitySpawner = new EntitySpawner();
+        _entitySpawner.AddEntity();
         player = entitiesList[0];
         //set all entities visibility off except player's.
         for (int i = 1; i < entitiesList.Count; i++)
@@ -63,10 +65,12 @@ public class GameMaster : MonoBehaviour
         {
             foreach (Entity entity in entitiesList)
             {
+                entity.Fov.UpdateFOV(entity, 10);
                 if (entity.NeedsUserInput)
                 {
                     // wait for player to do somethingg before continuing
                     yield return PlayerController.WaitForKeyPress();
+
                     actionManager.AddAction(entity.GetAction());
                 }
                 else
@@ -99,7 +103,6 @@ public class ActionManager
         foreach (IAction action in _actions.Where(x => !x.IsCompleted))
         {
             action.Execute();
-            FOV.CreateFOV();
         }
     }
 }

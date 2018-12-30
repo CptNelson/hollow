@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EntityAI
+public interface IEntityAI
+{
+    IAction ChooseAction { get; set; }
+}
+
+public class EntityAI : IEntityAI
 {
     protected Entity _entity;
     protected IAction _action;
+    public IAction ChooseAction { get; set; }
 }
 
 public class BarbarianAI : EntityAI
@@ -17,7 +23,7 @@ public class BarbarianAI : EntityAI
         
     }
 
-    public IAction chooseAction(Entity entity)
+    public new IAction ChooseAction(Entity entity)
     {
         _entity = entity;
 

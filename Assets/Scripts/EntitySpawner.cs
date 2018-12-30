@@ -11,23 +11,27 @@ public class EntitySpawner : ScriptableObject
     private static GameObject temp;
     
     
-    private static void CreateEntities()
+    private void CreateEntities()
     {
         grid = GameObject.Find("Map").GetComponent<Grid>();
         entitiesList = GameMaster.entitiesList;
 
         //create entity and add its prefab to entity.sprite.
         //then go over the entitylist and give them random starting positions.
-        var player = Player.Create();
+        Player player = new Player();
+        //player.Fov = new FOV(player, 12);
         entitiesList.Add(player);
+       
         player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
-
+        player.Fov = new FOV();
 
         barbarians = new List<Entity>();
         for (int i = 0; i < 1; i++)
         {
-            barbarians.Add(Barbarian.Create());
+            barbarians.Add(new Barbarian());
+            barbarians[i].Fov = new FOV();
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
+            //barbarians[i].Fov = new FOV(barbarians[i], 12);
             entitiesList.Add(barbarians[i]);
         }
         
@@ -43,7 +47,7 @@ public class EntitySpawner : ScriptableObject
 
     }
 
-    public static void AddEntity()
+    public void AddEntity()
     {
         CreateEntities();
     }
