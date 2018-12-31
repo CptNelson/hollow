@@ -13,11 +13,13 @@ public interface IEntity
     GameObject Sprite { get; set; }
     bool NeedsUserInput { get; set; }
     Vector3Int Goal { get; set; }
-    FOV Fov { get; set; }
 
+    int HP { get; set; }
+    bool HasBody { get; set; }
     EntityAI Ai { get; set; }
     string Name { get; set; }
     int Speed { get; set; }
+    bool Alive { get; set; }
 }
 
 public class Entity : IEntity
@@ -30,10 +32,12 @@ public class Entity : IEntity
     private bool _needsUserInput;
     private Vector3Int _goal = new Vector3Int(-1,-1,-1);
 
-    private FOV _fov;
+    private bool _hasBody = true;
+    private int _hp = 10;
     private EntityAI _ai;
     private string _name;
     private int _speed;
+    private bool _alive = true;
 
     public IAction NextAction { get { return _nextAction; } set { _nextAction = value; } }
     public int X { get { return _x; } set { _x = value; } }
@@ -45,10 +49,12 @@ public class Entity : IEntity
     public GameObject Sprite { get { return _sprite; } set { _sprite = value; } }
     public bool NeedsUserInput { get { return _needsUserInput; } set { _needsUserInput = value; } }
 
-    public FOV Fov { get { return _fov; } set { _fov = value; } }
+    public bool HasBody { get { return _hasBody; } set { _hasBody = value; } }
+    public int HP { get { return _hp; } set { _hp = value; } }
     public EntityAI Ai { get { return _ai; } set { _ai = value; } }
     public string Name { get { return _name; } set { _name = value; } }
     public int Speed { get { return _speed; } set { _speed = value; } }
+    public bool Alive { get { return _alive; } set { _alive = value; } }
 
     public object FOV { get; internal set; }
 
@@ -85,8 +91,9 @@ public class Barbarian : Entity
         {
             Name = "Barbarian";
             Speed = 10;
+            HP = 12;
             //Fov = new FOV(this, 10);
-            barbaAi = new BarbarianAI();
+            //barbaAi = 
         };
 
     }
@@ -94,7 +101,7 @@ public class Barbarian : Entity
     override public IAction GetAction()
     {
 
-        NextAction = barbaAi.ChooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
+        NextAction = new BarbarianAI().ChooseAction(this); //barbaAi.ChooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
         //NextAction = new SayName(this);
         var action = NextAction;
         
@@ -111,6 +118,7 @@ public class Player : Entity
         {
             Name = "Player";
             Speed = 10;
+            HP = 12;
             NeedsUserInput = true;
             //Fov = new FOV(this, 14);
         };

@@ -20,15 +20,28 @@ public class Utils
             new Vector3Int(0, 1,0)
         };
 
-    public static bool IsTileEmpty(Vector3Int position)
+    public static Entity IsEntity(Vector3Int position)
+    {
+        for (int i = 0; i < entities.Count; i++)
+        {
+            if (entities[i].Position == position)
+            {
+                return entities[i];
+            }
+        }
+        return null;
+    }
+
+    public static bool Is2TileEmpty(Vector3Int position)
     {
         entities = GameMaster.entitiesList;
         if (GameTiles.instance.tiles[position].isWalkable)
         {
             for (int i = 0; i < entities.Count; i++)
             {
-                if (entities[i].Position == position)
+                if (IsEntity(position) != null)//entities[i].Position == position)
                 {
+
                     //Debug.Log("there is someone!");
                     return false;
                 }
@@ -46,7 +59,7 @@ public class Utils
 
         do {
             position = new Vector3Int(rand.Next(0, tilemap.size.x), rand.Next(0, tilemap.size.y), 0);
-        } while (!IsTileEmpty(position));
+        } while (!Is2TileEmpty(position));
         return position;
     }
 

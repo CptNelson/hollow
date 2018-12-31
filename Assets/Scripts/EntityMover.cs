@@ -2,9 +2,11 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class EntityMover {
+public class EntityMover : MonoBehaviour {
 
     private static GameObject map;
+
+    //TODO: Combine both move methods.
 
     public static void MoveToPosition(Entity _entity, int x, int y)
     {
@@ -12,13 +14,24 @@ public class EntityMover {
 
         Vector3Int oldCellPosition = _entity.Position;
         Vector3Int newCellPosition = new Vector3Int(oldCellPosition.x + x, oldCellPosition.y + y, 0);
+        
 
-        if (Utils.IsTileEmpty(newCellPosition))
+        if (Utils.Is2TileEmpty(newCellPosition) == true)
         {
-                    // if move is possible, update the entitys grid position and render position.
-                    _entity.Position = newCellPosition;
-                    _entity.Sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+            // if move is possible, update the entitys grid position and render position.
+            _entity.Position = newCellPosition;
+            _entity.Sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
         }
+        else if (!Utils.Is2TileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
+        {
+            Debug.Log("Attack!");
+            Utils.IsEntity(newCellPosition).HP = Utils.IsEntity(newCellPosition).HP - Utils.GetRandomInt(0, 6);
+            if (Utils.IsEntity(newCellPosition).HP <= 0)
+            {
+                Destroy(Utils.IsEntity(newCellPosition).Sprite);
+                Utils.IsEntity(newCellPosition).Alive = false;
+            }
+        } 
     }
 
     public static void MoveToCell(Entity _entity, int x, int y)
@@ -28,11 +41,15 @@ public class EntityMover {
         //Vector3Int oldCellPosition = _entity.Position;
         Vector3Int newCellPosition = new Vector3Int(x, y, 0);
 
-        if (Utils.IsTileEmpty(newCellPosition))
+        if (Utils.Is2TileEmpty(newCellPosition))
         {
             // if move is possible, update the entitys grid position and render position.
             _entity.Position = newCellPosition;
             _entity.Sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+        }
+        else if (!Utils.Is2TileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
+        {
+            Debug.Log("Attack!");
         }
     }
 }

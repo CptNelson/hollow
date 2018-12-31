@@ -21,8 +21,8 @@ public class FOV
         _entities = GameMaster.entitiesList;
         _gameTiles = GameTiles.instance.tiles;
         _entity = GameMaster.player;
-        _maxDistance = 12;
-        Debug.Log("Update: P: " + _entity.Name);
+        _maxDistance = 32;
+       // Debug.Log("Update: P: " + _entity.Name);
 
         HideEntities();
         CheckIfExplored();
@@ -32,11 +32,12 @@ public class FOV
     public static List<Entity> UpdateEntityFOV(Entity entity, int distance)
     {
         entitiesInFOV = new List<Entity>();
+        entitiesInFOV.Clear();
         _entities = GameMaster.entitiesList;
         _gameTiles = GameTiles.instance.tiles;
         _entity = entity;
         _maxDistance = 10;
-        Debug.Log("Update: P: " + _entity.Name);
+      //  Debug.Log("Update: P: " + _entity.Name);
 
         GetEntityFOV();
 
@@ -156,35 +157,10 @@ public class FOV
     }
 
 
-
-    private static void ShowFOV()
-    {
-        Debug.Log("Show FOV: " + _worldPoint);
-        if (_gameTiles.TryGetValue(_worldPoint, out _tile))
-        {
-            Debug.Log("Change Tile: ");
-            var color = _tile.TilemapMember.GetColor(_tile.LocalPlace);
-            color.a = 1.0f;
-            _tile.IsExplored = true;
-
-            _tile.TilemapMember.SetColor(_tile.LocalPlace, color);
-        }
-
-        foreach (Entity entity in _entities)
-        {
-
-            if (entity.Position == _worldPoint)
-            {
-                entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
-            }
-        }
-
-    }
-
     //make all entities except player invisible
     private static void HideEntities()
     {
-        Debug.Log("Hide Entities");
+       // Debug.Log("Hide Entities");
         for (int i = 1; i < _entities.Count; i++)
         {
             _entities[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;

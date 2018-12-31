@@ -32,13 +32,14 @@ public class BarbarianAI : EntityAI
             _action = null;
         }
         //patrol until sees player, then go to player
-        var entitiesInFov = FOV.UpdateEntityFOV(_entity, 10);
+        var entitiesInFov = FOV.UpdateEntityFOV(_entity, 2);
 
         foreach(Entity foventity in entitiesInFov)
         {
-            Debug.Log("foventity " + foventity.ToString());
+            //Debug.Log("foventity " + foventity.ToString());
             if (foventity.ToString() == "Player")
             {
+                Debug.Log("goal: "+ _entity.Goal);
                 _entity.Goal = foventity.Position;
             }
         }
@@ -48,11 +49,11 @@ public class BarbarianAI : EntityAI
 
             _entity.Goal = Utils.GetRandomEmptyPosition();
            
-            Debug.Log("setting goal: " + _entity.Goal);
+            //Debug.Log("setting goal: " + _entity.Goal);
 
         } 
             
-        Debug.Log("patrolling");
+        //Debug.Log("patrolling");
         _action = new Patrol(_entity, _entity.Goal);
         return _action;
         //return new GoTo(entity, entity.Position, GameMaster.entitiesList[0].Position);

@@ -26,7 +26,7 @@ public class EntitySpawner : ScriptableObject
        // player.Fov = new FOV();
 
         barbarians = new List<Entity>();
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 3; i++)
         {
             barbarians.Add(new Barbarian());
             //barbarians[i].Fov = new FOV();

@@ -19,7 +19,7 @@ public class PlayerController : ScriptableObject {
                 else if (Input.GetKey("left")) { MoveTo(-1, 0); }
                 else if (Input.GetKey("right")) { MoveTo(1, 0); }
                 else if (Input.GetKeyDown(KeyCode.Space)) { GameMaster.player.NextAction = new SayName(GameMaster.player); }
-                else yield return null;
+                
                 done = true;
             }
             yield return null; // wait until next frame, then continue execution from here (loop continues)

@@ -14,8 +14,8 @@ public class GameMaster : MonoBehaviour
     //private PlayerController input;
     public static ActionManager actionManager;
     private static Tilemap _tilemap;
-    public static int width = 60;
-    public static int height = 40;
+    public static int width = 40;
+    public static int height = 30;
     EntitySpawner _entitySpawner;
 
 
@@ -62,12 +62,11 @@ public class GameMaster : MonoBehaviour
 
         while (playing)
         {
-            foreach (Entity entity in entitiesList)
+            foreach (Entity entity in entitiesList.Reverse<Entity>())
             {
 
                 if (entity.NeedsUserInput)
                 {
-
                     // wait for player to do somethingg before continuing
                     yield return PlayerController.WaitForKeyPress();
 
@@ -75,9 +74,18 @@ public class GameMaster : MonoBehaviour
                 }
                 else
                 {
-                    actionManager.AddAction(entity.GetAction());
-                    actionManager.ProcessActions();
+
+                    //if entity is dead, remove it from the list.
+                    if (!entity.Alive)
+                    {
+                        entitiesList.Remove(entity);
+                    }
+                    if (entity.Alive) {
+                        actionManager.AddAction(entity.GetAction());
+                    }
+
                 }
+                actionManager.ProcessActions();
             }
         }
     }
@@ -102,6 +110,7 @@ public class ActionManager
         // Apply transactions in the order they were added.
         foreach (IAction action in _actions.Where(x => !x.IsCompleted))
         {
+            Debug.Log("execute");
             action.Execute();
         }
     }
