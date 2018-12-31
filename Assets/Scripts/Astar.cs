@@ -198,8 +198,11 @@ public class GetAStarPath
         
         while(_current != start)
         {
+            
             path.Add(_current);
+            Debug.Log("A*: " + astar.cameFrom[_current]);
             _current = astar.cameFrom[_current];
+            
         }
         
         path.Reverse();

@@ -49,9 +49,11 @@ public class Patrol : IAction
         if (_path.Count <=1)
         {
             Debug.Log("done!");
-            _entity.Goal = Utils.GetRandomEmptyPosition();
+            _entity.GetComponent<ActionComponent>().Goal = Utils.GetRandomEmptyPosition();
             _path.Clear();
+            Debug.Log("done 2!");
             _path = GetAStarPath.ReconstructPath(_entity.Position, _goal);
+            Debug.Log("done 3!");
             Debug.Log("new: " + _path[0]);
         }
 
@@ -64,6 +66,26 @@ public class Patrol : IAction
         EntityMover.MoveToCell(_entity, _path[0].x, _path[0].y);
         IsCompleted = true;
         
+    }
+}
+
+public class TestAction : IAction
+{
+
+
+    public bool IsCompleted { get; set; }
+    public TestAction()
+    {
+     
+
+        IsCompleted = false;
+    }
+
+    public void Execute()
+    {
+        Debug.Log("test Action");
+
+        IsCompleted = true;
     }
 }
 

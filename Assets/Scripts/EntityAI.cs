@@ -18,9 +18,9 @@ public class BarbarianAI : EntityAI
 {
 
     
-    public BarbarianAI() { }
+    public BarbarianAI(Entity entity) { ChooseActio(entity); }
 
-    public new IAction ChooseAction(Entity entity)
+    public IAction ChooseActio(Entity entity)
     {
         _entity = entity;
 
@@ -35,17 +35,18 @@ public class BarbarianAI : EntityAI
         {
             if (foventity.ToString() == "Player")
             {
-                //Debug.Log("goal: "+ _entity.Goal);
-                _entity.Goal = foventity.Position;
+                Debug.Log("goal: "+ _entity.GetComponent<ActionComponent>().Goal);
+                _entity.GetComponent<ActionComponent>().Goal = foventity.Position;
             }
         }
 
         //If there's no goal yet, set new one.
-        if (_entity.Goal == new Vector3Int(-1, -1, -1))
+        if (_entity.GetComponent<ActionComponent>().Goal == new Vector3Int(-1, -1, -1))
         {
-            _entity.Goal = Utils.GetRandomEmptyPosition();
+            _entity.GetComponent<ActionComponent>().Goal = Utils.GetRandomEmptyPosition();
         }             
-        _action = new Patrol(_entity, _entity.Goal);
+        _action = new Patrol(_entity, _entity.GetComponent<ActionComponent>().Goal);
+        Debug.Log("set: " + _action);
         return _action;
 
     }
@@ -55,11 +56,12 @@ public class TrollAI : EntityAI
 {
 
 
-    public TrollAI() { }
+    public TrollAI(Entity entity) { ChooseAction(entity); }
 
     public new IAction ChooseAction(Entity entity)
     {
         _action = new SayName(entity);
+        Debug.Log("set: " + _action);
         return _action;
 
     }

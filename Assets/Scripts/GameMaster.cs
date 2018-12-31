@@ -58,7 +58,6 @@ public class GameMaster : MonoBehaviour
         {
             entitiesList[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;
         }
-
     }
 
 
@@ -66,6 +65,15 @@ public class GameMaster : MonoBehaviour
     private IEnumerator GameLoop()
     {
         ActionManager actionManager = new ActionManager();
+        List<Entity> actorsList = new List<Entity>();
+
+        foreach(Entity entity in entitiesList)
+        {
+            if (entity.HasComponent<ActionComponent>())
+            {
+                actorsList.Add(entity);
+            }      
+        }
 
         bool playing = true;
 
@@ -73,7 +81,7 @@ public class GameMaster : MonoBehaviour
         {
             //Iterate the entities and ask them for an action.
             //reverse list because we need it for removing entitites from list while it's iterating.
-            foreach (Entity entity in entitiesList.Reverse<Entity>())
+            foreach (Entity entity in actorsList.Reverse<Entity>())
             {
 
                 if (entity.NeedsUserInput)
@@ -81,7 +89,7 @@ public class GameMaster : MonoBehaviour
                     // wait for player to do somethingg before continuing
                     yield return PlayerController.WaitForKeyPress();
 
-                    actionManager.AddAction(entity.GetAction());
+                    actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
                 }
                 else
                 {
@@ -92,8 +100,9 @@ public class GameMaster : MonoBehaviour
                         entitiesList.Remove(entity);
                     }
                     if (entity.Alive) {
-                        actionManager.AddAction(entity.GetAction());
-                        Debug.Log(entity.NextAction);
+                        entity.GetComponent<ActionComponent>().NextAction = entity.GetComponent<AIComponent>().ChooseAction();
+                        actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
+                        //Debug.Log("next: " + entity.Id +" " + entity.GetComponent<ActionComponent>().NextAction);
                     }
 
                 }
@@ -123,7 +132,7 @@ public class ActionManager
         // Execute actions in the order they were added.
         foreach (IAction action in _actions.Where(x => !x.IsCompleted))
         {
-            Debug.Log("execute");
+            //Debug.Log("execute");
             action.Execute();
         }
     }
