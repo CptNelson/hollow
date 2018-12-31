@@ -88,7 +88,7 @@ public class GameMaster : MonoBehaviour
                 {
                     // wait for player to do somethingg before continuing
                     yield return PlayerController.WaitForKeyPress();
-
+                    
                     actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
                 }
                 else
@@ -100,7 +100,8 @@ public class GameMaster : MonoBehaviour
                         entitiesList.Remove(entity);
                     }
                     if (entity.Alive) {
-                        entity.GetComponent<ActionComponent>().NextAction = entity.GetComponent<AIComponent>().ChooseAction();
+                        
+                        //entity.GetComponent<ActionComponent>().NextAction = entity.GetComponent<AIComponent>().ChooseAction();
                         actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
                         //Debug.Log("next: " + entity.Id +" " + entity.GetComponent<ActionComponent>().NextAction);
                     }

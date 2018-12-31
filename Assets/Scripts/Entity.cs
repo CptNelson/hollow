@@ -97,6 +97,15 @@ public class Entity
         return false;
     }
 
+    public void UpdateEntity()
+    {
+        Debug.Log("Update: " + Id + " cmp: " + components.Count);
+        foreach(Component cmp in components)
+        {
+            cmp.UpdateComponent();
+        }
+    }
+
 }
 
 public class EntityFactory

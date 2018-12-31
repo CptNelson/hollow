@@ -200,7 +200,7 @@ public class GetAStarPath
         {
             
             path.Add(_current);
-            Debug.Log("A*: " + astar.cameFrom[_current]);
+            //Debug.Log("A*: " + astar.cameFrom[_current]);
             _current = astar.cameFrom[_current];
             
         }

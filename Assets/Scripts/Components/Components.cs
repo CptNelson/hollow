@@ -3,32 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-    public interface IComponent
-    {
-        Entity entity { get; set; }
-    }
+public interface IComponent
+{
+    Entity entity { get; set; }
+}
 
-    public class BodyComponent : IComponent
+abstract public class Component : IComponent
+{
+    public Entity entity { get; set; }
+    abstract public void UpdateComponent();
+
+}
+
+
+public class BodyComponent : Component
     {
         private bool _hasBody = true;
 
         private int _speed;
         private bool _alive = true;
 
-        public Entity entity { get; set; }
+      //  public Entity entity { get; set; }
 
 
         public bool HasBody { get { return _hasBody; } set { _hasBody = value; } }
 
         public int Speed { get { return _speed; } set { _speed = value; } }
         public bool Alive { get { return _alive; } set { _alive = value; } }
+
+        public override void UpdateComponent()
+        {
+
+        }
+
+
         //    Vector3Int Goal { get; set; }
         //    EntityAI Ai { get; set; }
     }
 
-public class ActionComponent : IComponent
+public class ActionComponent : Component
 {
-    public Entity entity { get; set; }
+    //public Entity entity { get; set; }
     public Vector3Int Goal { get { return _goal; } set { _goal = value; } }
     public IAction NextAction { get { return _nextAction; } set { _nextAction = value; } }
     public EntityAI Ai { get { return _ai; } set { _ai = value; } }
@@ -38,6 +53,11 @@ public class ActionComponent : IComponent
     private IAction _nextAction;
     private EntityAI _ai;
 
+    public override void UpdateComponent()
+    {
+     //   NextAction = entity.GetComponent<AIComponent>().ChooseAction();
+    }
+
 
     public void ResetGoal()
     {
@@ -46,7 +66,7 @@ public class ActionComponent : IComponent
 
     public virtual IAction GetAction()
     {
-
+        entity.UpdateEntity();
         //NextAction = tempEnt.GetComponent<ActionComponent>().Ai.ChooseAction()
         var action = NextAction;
         //NextAction = null;
@@ -55,11 +75,16 @@ public class ActionComponent : IComponent
     }
 }
 
-public class AIComponent : IComponent
+public class AIComponent : Component
 {
-    public Entity entity { get; set; }
+    //public Entity entity { get; set; }
     private Entity _entity;
     private IAction _action;
+
+    public override void UpdateComponent()
+    {
+        entity.GetComponent<ActionComponent>().NextAction = entity.GetComponent<AIComponent>().ChooseAction();
+    }
 
     public IAction ChooseAction()
     {
