@@ -20,7 +20,10 @@ public class DungeonGenerator : MonoBehaviour
         _tilemap = _map.transform.GetChild(0).GetComponent<Tilemap>();
         _tileset = TileLoader.LoadTiles("Ascii");
         CreateMap();
+
     }
+
+
 
     private static void CreateMap()
     {

@@ -93,6 +93,7 @@ public class GameMaster : MonoBehaviour
                     }
                     if (entity.Alive) {
                         actionManager.AddAction(entity.GetAction());
+                        Debug.Log(entity.NextAction);
                     }
 
                 }

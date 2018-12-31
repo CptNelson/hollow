@@ -14,6 +14,8 @@ public class EntitySpawner : ScriptableObject
         CreateEntities();
     }
 
+
+
     private void CreateEntities()
     {
         _grid = GameObject.Find("Map").GetComponent<Grid>();
@@ -33,6 +35,12 @@ public class EntitySpawner : ScriptableObject
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
             _entitiesList.Add(barbarians[i]);
         }
+
+        EntityFactory factory = new EntityFactory();
+        Entity troll = factory.CreateEntity("troll", new List<IComponent> { new BodyComponent() });
+        _entitiesList.Add(troll);
+        troll.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/troll"));
+
 
         //then go over the entitylist and give them random starting positions.
         for (int i = 0; i < _entitiesList.Count; i++)

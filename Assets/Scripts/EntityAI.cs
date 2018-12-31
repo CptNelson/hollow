@@ -50,3 +50,17 @@ public class BarbarianAI : EntityAI
 
     }
 }
+
+public class TrollAI : EntityAI
+{
+
+
+    public TrollAI() { }
+
+    public new IAction ChooseAction(Entity entity)
+    {
+        _action = new SayName(entity);
+        return _action;
+
+    }
+}
