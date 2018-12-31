@@ -87,22 +87,17 @@ public class Barbarian : Entity
     BarbarianAI barbaAi;
     public Barbarian()
     {
-        //return new Barbarian
         {
             Name = "Barbarian";
             Speed = 10;
             HP = 12;
-            //Fov = new FOV(this, 10);
-            //barbaAi = 
         };
-
     }
 
     override public IAction GetAction()
     {
 
-        NextAction = new BarbarianAI().ChooseAction(this); //barbaAi.ChooseAction(this); //Walk(this, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
-        //NextAction = new SayName(this);
+        NextAction = new BarbarianAI().ChooseAction(this);
         var action = NextAction;
         
         return action;

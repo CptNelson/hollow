@@ -8,9 +8,6 @@ public class GameTiles : MonoBehaviour
     public static GameTiles instance;
 
     public Tilemap Tilemap;
-    //public static GameObject _map;
-    //public static Tilemap _tempTilemap;
-
 
     public Dictionary<Vector3, WorldTile> tiles;
 
@@ -58,7 +55,7 @@ public class GameTiles : MonoBehaviour
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
                     Cost = 420, 
-                    isWalkable = false
+                    IsWalkable = false
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
@@ -75,7 +72,7 @@ public class GameTiles : MonoBehaviour
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
                     Cost = 4,
-                    isWalkable = true
+                    IsWalkable = true
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
@@ -91,7 +88,7 @@ public class GameTiles : MonoBehaviour
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
                     Cost = 0, 
-                    isWalkable = true
+                    IsWalkable = true
             };
             tiles.Add(tile.WorldLocation, tile);
             }

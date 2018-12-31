@@ -4,25 +4,26 @@ using UnityEngine.Tilemaps;
 
 public class EntityMover : MonoBehaviour {
 
-    private static GameObject map;
+    private static GameObject _map;
 
     //TODO: Combine both move methods.
+    //TODO: Move attacking out of here!
 
     public static void MoveToPosition(Entity _entity, int x, int y)
     {
-        map = GameObject.Find("Map");
+        _map = GameObject.Find("Map");
 
         Vector3Int oldCellPosition = _entity.Position;
         Vector3Int newCellPosition = new Vector3Int(oldCellPosition.x + x, oldCellPosition.y + y, 0);
         
 
-        if (Utils.Is2TileEmpty(newCellPosition) == true)
+        if (Utils.IsTileEmpty(newCellPosition) == true)
         {
             // if move is possible, update the entitys grid position and render position.
             _entity.Position = newCellPosition;
-            _entity.Sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+            _entity.Sprite.GetComponent<Transform>().position = _map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
         }
-        else if (!Utils.Is2TileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
+        else if (!Utils.IsTileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
         {
             Debug.Log("Attack!");
             Utils.IsEntity(newCellPosition).HP = Utils.IsEntity(newCellPosition).HP - Utils.GetRandomInt(0, 6);
@@ -36,18 +37,18 @@ public class EntityMover : MonoBehaviour {
 
     public static void MoveToCell(Entity _entity, int x, int y)
     {
-        map = GameObject.Find("Map");
+        _map = GameObject.Find("Map");
 
         //Vector3Int oldCellPosition = _entity.Position;
         Vector3Int newCellPosition = new Vector3Int(x, y, 0);
 
-        if (Utils.Is2TileEmpty(newCellPosition))
+        if (Utils.IsTileEmpty(newCellPosition))
         {
             // if move is possible, update the entitys grid position and render position.
             _entity.Position = newCellPosition;
-            _entity.Sprite.GetComponent<Transform>().position = map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+            _entity.Sprite.GetComponent<Transform>().position = _map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
         }
-        else if (!Utils.Is2TileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
+        else if (!Utils.IsTileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
         {
             Debug.Log("Attack!");
         }

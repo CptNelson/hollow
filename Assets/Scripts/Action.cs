@@ -61,7 +61,6 @@ public class Patrol : IAction
     public void Execute()
     {
 
-
         EntityMover.MoveToCell(_entity, _path[0].x, _path[0].y);
         IsCompleted = true;
         
@@ -86,8 +85,6 @@ public class SayName : IAction
         Debug.Log(_entity.Position);
 
         IsCompleted = true;
-        // playaer pos is 0
-
     }
 }
 public class GoTo : IAction
@@ -113,8 +110,7 @@ public class GoTo : IAction
         {
             Debug.Log("A : " + loc);
         }
-        //Debug.Log("ent: " + _entity.Position);
-        //Debug.Log("path: " + path[1]);
+
         EntityMover.MoveToCell(_entity, path[0].x, path[0].y);
 
         IsCompleted = true;

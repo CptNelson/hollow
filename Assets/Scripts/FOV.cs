@@ -22,8 +22,7 @@ public class FOV
         _gameTiles = GameTiles.instance.tiles;
         _entity = GameMaster.player;
         _maxDistance = 32;
-       // Debug.Log("Update: P: " + _entity.Name);
-
+    
         HideEntities();
         CheckIfExplored();
         DoTheFOV();
@@ -36,13 +35,10 @@ public class FOV
         _entities = GameMaster.entitiesList;
         _gameTiles = GameTiles.instance.tiles;
         _entity = entity;
-        _maxDistance = 10;
-      //  Debug.Log("Update: P: " + _entity.Name);
+        _maxDistance = distance;
 
         GetEntityFOV();
-
         return entitiesInFOV;
-
     }
 
 
@@ -59,6 +55,7 @@ public class FOV
         }
     }
 
+    //This is for the player
     private static void DoTheFOV()
     {
         int row, col;
@@ -132,8 +129,7 @@ public class FOV
     }
 
     private static Vector3Int GetPosition(int octant, int row, int col)
-    {
-        //Debug.Log(_entity.Name +" "+ _entity.Position);
+    { 
         switch (octant)
         {
             case 0:
@@ -160,7 +156,6 @@ public class FOV
     //make all entities except player invisible
     private static void HideEntities()
     {
-       // Debug.Log("Hide Entities");
         for (int i = 1; i < _entities.Count; i++)
         {
             _entities[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;

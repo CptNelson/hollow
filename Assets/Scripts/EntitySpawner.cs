@@ -5,25 +5,25 @@ public class EntitySpawner : ScriptableObject
 {
     public static List<Entity> barbarians;
 
-    private static Grid grid;
-    private static List<Entity> entitiesList;  
-    //private static Player player;
-    private static GameObject temp;
-    
-    
+    private static Grid _grid;
+    private static List<Entity> _entitiesList;
+
+
+    public void AddEntity()
+    {
+        CreateEntities();
+    }
+
     private void CreateEntities()
     {
-        grid = GameObject.Find("Map").GetComponent<Grid>();
-        entitiesList = GameMaster.entitiesList;
+        _grid = GameObject.Find("Map").GetComponent<Grid>();
+        _entitiesList = GameMaster.entitiesList;
 
         //create entity and add its prefab to entity.sprite.
-        //then go over the entitylist and give them random starting positions.
+        //Player needs to be created first.
         Player player = new Player();
-
-        entitiesList.Add(player);
-       
+        _entitiesList.Add(player);
         player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
-       // player.Fov = new FOV();
 
         barbarians = new List<Entity>();
         for (int i = 0; i < 3; i++)
@@ -31,27 +31,16 @@ public class EntitySpawner : ScriptableObject
             barbarians.Add(new Barbarian());
             //barbarians[i].Fov = new FOV();
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
-            entitiesList.Add(barbarians[i]);
+            _entitiesList.Add(barbarians[i]);
         }
-        
-        //Entity barbarian = factory.NewBarbarian();
-        //barbarian.sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
 
-        for (int i = 0; i < entitiesList.Count; i++)
+        //then go over the entitylist and give them random starting positions.
+        for (int i = 0; i < _entitiesList.Count; i++)
         {
-            entitiesList[i].Position = Utils.GetRandomEmptyPosition();
-            Debug.Log("player Pos: " + entitiesList[0].Position);
-            entitiesList[i].Sprite.transform.position = grid.GetCellCenterLocal(entitiesList[i].Position);
+            _entitiesList[i].Position = Utils.GetRandomEmptyPosition();
+            Debug.Log("player Pos: " + _entitiesList[0].Position);
+            _entitiesList[i].Sprite.transform.position = _grid.GetCellCenterLocal(_entitiesList[i].Position);
         }
-        //Debug.Log(entitiesList[0].name + " " + entitiesList[1].name);
 
     }
-
-    public void AddEntity()
-    {
-        CreateEntities();
-    }
-
-
-
 }

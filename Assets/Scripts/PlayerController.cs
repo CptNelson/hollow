@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerController : ScriptableObject {
 
-    
-
     public static IEnumerator WaitForKeyPress()
     {
         FOV.UpdatePlayerFOV();
@@ -24,13 +22,10 @@ public class PlayerController : ScriptableObject {
             }
             yield return null; // wait until next frame, then continue execution from here (loop continues)
         }
-        
     }
     public static void MoveTo(int x, int y)
     {
         GameMaster.player.NextAction = new Walk(GameMaster.player, x, y);
     }
-
-
 }
 

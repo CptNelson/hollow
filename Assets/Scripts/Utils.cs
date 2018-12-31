@@ -8,18 +8,21 @@ public class Utils
 {
     private static List<Entity> entities;
     private static Tilemap tilemap;
-    //private static GameTiles tiles;
-
-    //private static object syncObj = new object();
 
     public static readonly Vector3Int[] DIRS = new[]
     {
             new Vector3Int(1, 0,0),
             new Vector3Int(0, -1,0),
             new Vector3Int(-1, 0,0),
-            new Vector3Int(0, 1,0)
+            new Vector3Int(0, 1,0),
+            new Vector3Int(1, 1,0),
+            new Vector3Int(-1, -1,0),
+            new Vector3Int(-1, 1,0),
+            new Vector3Int(1, -1,0)
         };
 
+
+    //Return entity in position
     public static Entity IsEntity(Vector3Int position)
     {
         for (int i = 0; i < entities.Count; i++)
@@ -32,17 +35,15 @@ public class Utils
         return null;
     }
 
-    public static bool Is2TileEmpty(Vector3Int position)
+    public static bool IsTileEmpty(Vector3Int position)
     {
         entities = GameMaster.entitiesList;
-        if (GameTiles.instance.tiles[position].isWalkable)
+        if (GameTiles.instance.tiles[position].IsWalkable)
         {
             for (int i = 0; i < entities.Count; i++)
             {
-                if (IsEntity(position) != null)//entities[i].Position == position)
+                if (IsEntity(position) != null)
                 {
-
-                    //Debug.Log("there is someone!");
                     return false;
                 }
             } return true;
@@ -59,7 +60,7 @@ public class Utils
 
         do {
             position = new Vector3Int(rand.Next(0, tilemap.size.x), rand.Next(0, tilemap.size.y), 0);
-        } while (!Is2TileEmpty(position));
+        } while (!IsTileEmpty(position));
         return position;
     }
 

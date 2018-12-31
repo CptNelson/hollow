@@ -20,9 +20,9 @@ public class WorldTile
 
     public string Position { get; set; }
 
-    public bool isWalkable { get; set; }
+    public bool IsWalkable { get; set; }
 
-    // Below is needed for Breadth First Searching
+    //below is needed for pathfinding
     public bool IsExplored { get; set; }
 
     public WorldTile ExploredFrom { get; set; }

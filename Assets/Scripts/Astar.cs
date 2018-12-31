@@ -182,7 +182,7 @@ public class GetAStarPath
 
             if (GameTiles.instance.tiles.TryGetValue(localPlace, out WorldTile _tile))
             {
-                if (!_tile.isWalkable)
+                if (!_tile.IsWalkable)
                 {
                     grid.walls.Add(new Vector3Int(_tile.LocalPlace.x, _tile.LocalPlace.y,0));
                 }
