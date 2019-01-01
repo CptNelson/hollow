@@ -6,12 +6,15 @@ using UnityEngine;
 
 public interface IComponent
 {
-    Entity entity { get; set; }
+   Entity entity { get; set; }
 }
 
 abstract public class Component : IComponent
 {
+    public List<IComponent> components = new List<IComponent>();
     public Entity entity { get; set; }
+
+
 
     //Components are updated every turn. Override this if update is needed.
     abstract public void UpdateComponent();
@@ -19,17 +22,25 @@ abstract public class Component : IComponent
 
 
 public class BodyComponent : Component
-    {
+{
     //check if this is physical entity.
     public bool HasBody { get { return _hasBody; } set { _hasBody = value; } }
-    //Every entity has speed. It effects Amount of actions entity can do in given turn. 
+    public int Strength { get { return _strength; } set { _strength = value; } }
+    public List<Entity> Items { get { return _items; } set { _items = value; } }
 
+
+    private List<Entity> _items = new List<Entity>();
     private bool _hasBody = true;
-
+    private int _strength = 3;
 
     public override void UpdateComponent()
     {
 
+    }
+
+    public void UseItem()
+    {
+    //    Items[0].GetComponent<Potion>().Use();
     }
 
     public void TakeDamage(int amount)
@@ -63,7 +74,7 @@ public class ActionComponent : Component
     public override void UpdateComponent()
     {
         Energy += _speed;
-        Debug.Log(entity.Id + " Energy: " + _energy + " " + _speed);
+        //Debug.Log(entity.Id + " Energy: " + _energy + " " + _speed);
     }
 
     public virtual IAction GetAction()
@@ -79,9 +90,25 @@ public class ActionComponent : Component
         Energy -= 100;
         //return the action entity chose for the next move.
         var _action = NextAction;
-        Debug.Log(entity.Id + " getting action: " + _action);
+        //Debug.Log(entity.Id + " getting action: " + _action);
         return _action;
     }
+}
+
+public class AttackComponent : Component
+{
+
+    public override void UpdateComponent()
+    {
+    }
+
+    public void Attack(Entity target)
+    {
+        int damage = entity.GetComponent<BodyComponent>().Strength + Utils.GetRandomInt(0, 6);
+
+        target.GetComponent<BodyComponent>().TakeDamage(damage);
+    }
+
 }
 
 public class AIComponent : Component
@@ -106,7 +133,7 @@ public class AIComponent : Component
         }
 
         //patrol until sees player, then go to player.
-        var entitiesInFov = FOV.UpdateEntityFOV(_entity, 8);
+        var entitiesInFov = FOV.UpdateEntityFOV(entity, 8);
 
         foreach (Entity fovEntity in entitiesInFov)
         {
@@ -114,20 +141,22 @@ public class AIComponent : Component
             if (fovEntity.Id == "Player")
             {
                 //Debug.Log("goal: " + _entity.GetComponent<ActionComponent>().Goal);
-                _entity.GetComponent<ActionComponent>().Goal = fovEntity.Position;
+                entity.GetComponent<ActionComponent>().Goal = fovEntity.Position;
             }
         }
 
         //If there's no goal position yet, set new one.
-        if (_entity.GetComponent<ActionComponent>().Goal == new Vector3Int(-1, -1, -1))
+        if (entity.GetComponent<ActionComponent>().Goal == new Vector3Int(-1, -1, -1))
         {
-            _entity.GetComponent<ActionComponent>().Goal = Utils.GetRandomEmptyPosition();
+            entity.GetComponent<ActionComponent>().Goal = Utils.GetRandomEmptyPosition();
         }
         //should patrol be another AIComponent?
-        _action = new Patrol(_entity, _entity.GetComponent<ActionComponent>().Goal);
+        _action = new Patrol(entity, entity.GetComponent<ActionComponent>().Goal);
         //Debug.Log("set: " + _action);
 
         return _action;
     }
-
 }
+
+// -----------------------ITEM COMPONENTS---------------------
+

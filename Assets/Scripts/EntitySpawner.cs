@@ -25,7 +25,7 @@ public class EntitySpawner : ScriptableObject
         //Player needs to be created first.
 
         EntityFactory factory = new EntityFactory();
-        Entity player = factory.CreateEntity("Player", new List<IComponent> { new BodyComponent(), new ActionComponent(), new InputController() });
+        Entity player = factory.CreateEntity("Player", new List<IComponent> { new BodyComponent(), new ActionComponent(), new InputController(), new AttackComponent() });
         
         player.NeedsUserInput = true;
         player.GetComponent<ActionComponent>().Speed = 55;
@@ -35,7 +35,7 @@ public class EntitySpawner : ScriptableObject
         barbarians = new List<Entity>();
         for (int i = 0; i < 3; i++)
         {
-            Entity barbarian = factory.CreateEntity("Barbarian", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent() });
+            Entity barbarian = factory.CreateEntity("Barbarian", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent(), new AttackComponent() });
             barbarians.Add(barbarian);
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
 
@@ -46,10 +46,11 @@ public class EntitySpawner : ScriptableObject
         }
 
 
-        Entity troll = factory.CreateEntity("Troll", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent() });
+        Entity troll = factory.CreateEntity("Troll", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent(), new AttackComponent() });
         troll.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/troll"));
         //troll.GetComponent<ActionComponent>().Ai = new TrollAI(troll);
         troll.GetComponent<ActionComponent>().Speed = 25;
+        troll.GetComponent<BodyComponent>().Strength = 6;
 
         //        troll.GetComponent<ActionComponent>().NextAction = troll.GetComponent<AIComponent>().ChooseAction();
 
@@ -62,6 +63,12 @@ public class EntitySpawner : ScriptableObject
             //Debug.Log("player Pos: " + _entitiesList[0].Position);
             _entitiesList[i].Sprite.transform.position = _grid.GetCellCenterLocal(_entitiesList[i].Position);
         }
+
+        Entity potion = factory.CreateEntity("Potion", new List<IComponent> { new Potion() });
+        potion.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/potion"));
+        //  Debug.Log("P: " + player.Id + player.GetComponent<BodyComponent>().Items.Count);
+
+        player.GetComponent<BodyComponent>().Items.Add(potion);
 
     }
 }

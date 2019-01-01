@@ -80,9 +80,10 @@ public class GameMaster : MonoBehaviour
         {
             if (entity.HasComponent<ActionComponent>())
             {
-                actorsList.Add(entity);
+              actorsList.Add(entity);
             }
         }
+        
 
         bool playing = true;
 
@@ -94,8 +95,7 @@ public class GameMaster : MonoBehaviour
             {
                 entity.UpdateEntity();
                 //if entity has the input component, wait for input before continuing.
-                
-               
+
                 if (entity.HasComponent<InputController>())
                 {
                     if (entity.GetComponent<ActionComponent>().Energy < 100)

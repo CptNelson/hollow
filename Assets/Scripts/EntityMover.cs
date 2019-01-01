@@ -25,8 +25,7 @@ public class EntityMover : MonoBehaviour {
         }
         else if (!Utils.IsTileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
         {
-            Debug.Log(_entity.Id + " Attacks!");
-            Utils.IsEntity(newCellPosition).GetComponent<BodyComponent>().TakeDamage(Utils.GetRandomInt(0, 6));
+            _entity.GetComponent<AttackComponent>().Attack(Utils.IsEntity(newCellPosition));
             Debug.Log(Utils.IsEntity(newCellPosition).Id + " is attacked.");
         } 
     }
@@ -46,8 +45,7 @@ public class EntityMover : MonoBehaviour {
         }
         else if (!Utils.IsTileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
         {
-            Debug.Log(_entity.Id + " Attacks!");
-            Utils.IsEntity(newCellPosition).GetComponent<BodyComponent>().TakeDamage(Utils.GetRandomInt(0, 6));
+            _entity.GetComponent<AttackComponent>().Attack(Utils.IsEntity(newCellPosition));
             Debug.Log(Utils.IsEntity(newCellPosition).Id + " is attacked.");
         }
     }

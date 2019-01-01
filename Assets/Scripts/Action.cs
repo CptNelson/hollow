@@ -122,6 +122,27 @@ public class SayName : IAction
         IsCompleted = true;
     }
 }
+
+public class UseItem : IAction
+{
+    public bool IsCompleted { get; set; }
+    private Entity _item;
+    private Entity _target;
+    public UseItem(Entity item, Entity target)
+    {
+        _target = target;
+        _item = item;
+        IsCompleted = false;
+    }
+
+    public void Execute()
+    {
+        _item.GetComponent<Potion>().Use(_target);
+        IsCompleted = true;
+
+    }
+}
+
 public class GoTo : IAction
 {
     private readonly Vector3Int _start, _goal;
