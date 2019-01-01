@@ -4,46 +4,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Entity
+public class CoreEntity
 {
-    public readonly List<IComponent> components;
+    public List<IComponent> components;
+    //Every entity has a HP.
+    public int HP { get { return _hp; } set { _hp = value; } }
+    private int _hp = 10;
+}
 
-    //public IAction NextAction { get { return _nextAction; } set { _nextAction = value; } }
-    public int X { get { return _x; } set { _x = value; } }
-    public int Y { get { return _y; } set { _y = value; } }
+public class Entity : CoreEntity
+{
+    //Position in the xy gridmap
     public Vector3Int Position { get { return _position; } set { _position = value; } }
-
-
+    //The sprite is set from the prefabs. It is for rendering the entity.
     public GameObject Sprite { get { return _sprite; } set { _sprite = value; } }
+    //Game loop checks if entity is player or AI
     public bool NeedsUserInput { get { return _needsUserInput; } set { _needsUserInput = value; } }
 
-
-    public int HP { get { return _hp; } set { _hp = value; } }
-    
+    //TODO: Not sure if this is needed, or is Id enough
     public string Name { get { return _name; } set { _name = value; } }
-    //public int Speed { get { return _speed; } set { _speed = value; } }
+    //If entity is dead, it is removed from the Game loop
     public bool Alive { get { return _alive; } set { _alive = value; } }
 
-    private int _x;
-    private int _y;
     private Vector3Int _position;
     private GameObject _sprite;
-    private bool _needsUserInput;
-
-    private int _hp = 10;
-    private EntityAI _ai;
+    private bool _needsUserInput; 
     private string _name;
-    private int _speed;
     private bool _alive = true;
 
 
 
-    public Entity() : this(string.Empty)
-    {
-    }
-    public Entity(string _id)
+    public Entity() : this(string.Empty) { }
+
+    public Entity(string _id) 
     {
         Id = _id;
+        Name = _id;
         components = new List<IComponent>();
     }
         public string Id = string.Empty;
@@ -97,9 +93,10 @@ public class Entity
         return false;
     }
 
+    //Every turn entity and its components are updated. 
     public void UpdateEntity()
     {
-        Debug.Log("Update: " + Id + " cmp: " + components.Count);
+       // Debug.Log("Update: " + Id + " cmp: " + components.Count);
         foreach(Component cmp in components)
         {
             cmp.UpdateComponent();
@@ -115,9 +112,9 @@ public class EntityFactory
     {
     }
 
-    public Entity CreateEntity(String name, List<IComponent> componentList)
+    public Entity CreateEntity(String id, List<IComponent> componentList)
     {
-        entity = new Entity(name);
+        entity = new Entity(id);
         entity.AddComponents(componentList);
         
         return entity;

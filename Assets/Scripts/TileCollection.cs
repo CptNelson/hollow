@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class GameTiles : MonoBehaviour
+public class TileCollection : MonoBehaviour
 {
-    public static GameTiles instance;
+    public static TileCollection instance;
 
     public Tilemap Tilemap;
 
-    public Dictionary<Vector3, WorldTile> tiles;
+    public Dictionary<Vector3, DataTile> tiles;
 
 
     public void CreateTileDictionary()
@@ -26,12 +26,10 @@ public class GameTiles : MonoBehaviour
         GetWorldTiles();
     }
 
-
-
     // Use this for initialization
     private void GetWorldTiles()
     {
-        tiles = new Dictionary<Vector3, WorldTile>();
+        tiles = new Dictionary<Vector3, DataTile>();
         foreach (Vector3Int pos in Tilemap.cellBounds.allPositionsWithin)
         {
             var localPlace = new Vector3Int(pos.x, pos.y, pos.z);
@@ -45,7 +43,7 @@ public class GameTiles : MonoBehaviour
             
             if (thisTile.CompareTo(wall) == 1) 
             {
-                var tile = new WorldTile
+                var tile = new DataTile
                 {
                     // wall
                     LocalPlace = localPlace,
@@ -54,15 +52,17 @@ public class GameTiles : MonoBehaviour
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
-                    Cost = 420, 
-                    IsWalkable = false
+                    Cost = 420,
+                    IsWalkable = false,
+                    HP = 666,
+                    BlocksVision = true
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
 
             else if (thisTile.CompareTo(bush) == 1)
             {
-                var tile = new WorldTile
+                var tile = new DataTile
                 {
                     // bush
                     LocalPlace = localPlace,
@@ -72,13 +72,15 @@ public class GameTiles : MonoBehaviour
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
                     Cost = 4,
-                    IsWalkable = true
+                    HP = 30,
+                    IsWalkable = true,
+                    BlocksVision = true
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
             else if (thisTile.CompareTo(ground) == 1) 
             {
-                var tile = new WorldTile
+                var tile = new DataTile
                 {
                     // ground
                     LocalPlace = localPlace,
@@ -87,8 +89,10 @@ public class GameTiles : MonoBehaviour
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = localPlace.x + "," + localPlace.y,
-                    Cost = 0, 
+                    Cost = 0,
+                    BlocksVision = false,
                     IsWalkable = true
+                    
             };
             tiles.Add(tile.WorldLocation, tile);
             }

@@ -180,7 +180,7 @@ public class GetAStarPath
         {
             var localPlace = new Vector3Int(pos.x, pos.y, pos.z);
 
-            if (GameTiles.instance.tiles.TryGetValue(localPlace, out WorldTile _tile))
+            if (TileCollection.instance.tiles.TryGetValue(localPlace, out DataTile _tile))
             {
                 if (!_tile.IsWalkable)
                 {

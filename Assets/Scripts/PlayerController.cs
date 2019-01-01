@@ -16,8 +16,10 @@ public class PlayerController : ScriptableObject {
                 else if (Input.GetKey("down")) { MoveTo(0, -1); }
                 else if (Input.GetKey("left")) { MoveTo(-1, 0); }
                 else if (Input.GetKey("right")) { MoveTo(1, 0); }
-                else if (Input.GetKeyDown(KeyCode.Space)) { GameMaster.entitiesList[1].GetComponent<ActionComponent>().NextAction = GameMaster.entitiesList[1].GetComponent<AIComponent>().ChooseAction(); }
-                
+                else if (Input.GetKeyDown(KeyCode.Space))
+                    { GameMaster.entitiesList[1].GetComponent<ActionComponent>().NextAction = 
+                      GameMaster.entitiesList[1].GetComponent<AIComponent>().ChooseAction(); }
+                else { GameMaster.player.GetComponent<ActionComponent>().NextAction = new SayName(GameMaster.player); }
                 done = true;
             }
             yield return null; // wait until next frame, then continue execution from here (loop continues)

@@ -5,9 +5,8 @@ using UnityEngine.Tilemaps;
 
 
 //here is data and functions for the 'virtual' tiles. 
-public class WorldTile
+public class DataTile : CoreEntity
 {
-
     public Vector3Int LocalPlace { get; set; }
 
     public Vector3 WorldLocation { get; set; }
@@ -22,10 +21,12 @@ public class WorldTile
 
     public bool IsWalkable { get; set; }
 
+    public bool BlocksVision { get; set; }
+
     //below is needed for pathfinding
     public bool IsExplored { get; set; }
 
-    public WorldTile ExploredFrom { get; set; }
+    public DataTile ExploredFrom { get; set; }
 
     public int Cost { get; set; }
 }

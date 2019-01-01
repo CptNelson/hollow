@@ -38,7 +38,7 @@ public class Utils
     public static bool IsTileEmpty(Vector3Int position)
     {
         entities = GameMaster.entitiesList;
-        if (GameTiles.instance.tiles[position].IsWalkable)
+        if (TileCollection.instance.tiles[position].IsWalkable)
         {
             for (int i = 0; i < entities.Count; i++)
             {

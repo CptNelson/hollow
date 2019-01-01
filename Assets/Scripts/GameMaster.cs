@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour
 {
@@ -11,8 +12,11 @@ public class GameMaster : MonoBehaviour
     public static List<Entity> entitiesList;
     public static Entity player;
     public static ActionManager actionManager;
-    public static int width = 40;
-    public static int height = 30;
+    public static int width = 54;
+    public static int height = 32;
+
+    public Canvas canvas;
+    public Text text;
 
     private Utils utils;
     private static Tilemap _tilemap;
@@ -33,6 +37,20 @@ public class GameMaster : MonoBehaviour
         //create the level and entities
         CreateLevel();
         AddEntities();
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        if (canvas != null)
+        {
+            GameObject textObject = new GameObject("TextComp");
+            textObject.transform.SetParent(canvas.transform);
+
+            
+            textObject.AddComponent<Text>();
+            textObject.GetComponent<RectTransform>().sizeDelta = new Vector2Int(1200, 120);
+            textObject.transform.localPosition = new Vector3Int(0, -340, 0);
+            textObject.GetComponent<Text>().font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+            textObject.GetComponent<Text>().fontSize = 32;
+            textObject.GetComponent<Text>().text = "Stars Hollow";
+        }
     }
 
     private void CreateLevel()
@@ -40,7 +58,7 @@ public class GameMaster : MonoBehaviour
         //create the map
         DungeonGenerator.Create(width, height);
         //create a dictionary holding tile data.
-        map.GetComponent<GameTiles>().CreateTileDictionary();
+        map.GetComponent<TileCollection>().CreateTileDictionary();
     }
 
     //TODO: this should probably happen in the map generator or somewhere that does both of them

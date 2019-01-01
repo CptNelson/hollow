@@ -23,7 +23,6 @@ public class EntitySpawner : ScriptableObject
 
         //create entity and add its prefab to entity.sprite.
         //Player needs to be created first.
-        //Player player = new Player();
 
         EntityFactory factory = new EntityFactory();
         Entity player = factory.CreateEntity("Player", new List<IComponent> { new BodyComponent(), new ActionComponent() });
@@ -38,7 +37,7 @@ public class EntitySpawner : ScriptableObject
             barbarians.Add(barbarian);
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
             barbarians[i].GetComponent<ActionComponent>().ResetGoal();
-            barbarians[i].GetComponent<ActionComponent>().NextAction = new TestAction();           
+                 
             
             //Debug.Log("Barbarian goal: " + barbarians[i].GetComponent<ActionComponent>().Goal);
             //barbarians[i].GetComponent<ActionComponent>().NextAction = barbarians[i].GetComponent<AIComponent>().ChooseAction();
@@ -51,7 +50,7 @@ public class EntitySpawner : ScriptableObject
         troll.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/troll"));
         //troll.GetComponent<ActionComponent>().Ai = new TrollAI(troll);
         troll.GetComponent<ActionComponent>().ResetGoal();
-        troll.GetComponent<ActionComponent>().NextAction = new TestAction();
+        
         //        troll.GetComponent<ActionComponent>().NextAction = troll.GetComponent<AIComponent>().ChooseAction();
 
         _entitiesList.Add(troll);

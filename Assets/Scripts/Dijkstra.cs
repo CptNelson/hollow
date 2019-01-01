@@ -15,8 +15,8 @@ public class Dijkstra
     //set it to be exactly 1 greater than its lowest value neighbor. Repeat until no changes are made. 
     //The resulting grid of numbers represents the number of steps that it will take to get from any given tile to the nearest goal. 
 
-    private static WorldTile _tile;
-    private static Dictionary<Vector3, WorldTile> _gameTiles;
+    private static DataTile _tile;
+    private static Dictionary<Vector3, DataTile> _gameTiles;
     private static Entity _player;
     private static Tilemap _tilemap = GameObject.Find("Map").transform.GetChild(0).GetComponent<Tilemap>();
     private static GameObject _map;
@@ -91,7 +91,7 @@ public class Dijkstra
 
     private void IterateMap()
     {
-        var tiles = GameTiles.instance.tiles;
+        var tiles = TileCollection.instance.tiles;
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)

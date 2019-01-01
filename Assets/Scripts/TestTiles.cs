@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class TestTiles : MonoBehaviour
 {
-    private WorldTile _tile;
+    private DataTile _tile;
 
     // Update is called once per frame
     private void Update()
@@ -16,7 +16,7 @@ public class TestTiles : MonoBehaviour
             Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var worldPoint = new Vector3Int((int)point.x, (int)point.y, 0);
             
-            var tiles = GameTiles.instance.tiles; // This is our Dictionary of tiles
+            var tiles = TileCollection.instance.tiles; // This is our Dictionary of tiles
 
             if (tiles.TryGetValue(worldPoint, out _tile))
             {
@@ -31,7 +31,7 @@ public class TestTiles : MonoBehaviour
             
             var worldPoint = new Vector3Int(1, 1, 0);
 
-            var tiles = GameTiles.instance.tiles; // This is our Dictionary of tiles
+            var tiles = TileCollection.instance.tiles; // This is our Dictionary of tiles
 
             if (tiles.TryGetValue(worldPoint, out _tile))
             {

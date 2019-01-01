@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class FOV 
 {
-    private static WorldTile _tile;
-    private static Dictionary<Vector3, WorldTile> _gameTiles;
+    private static DataTile _tile;
+    private static Dictionary<Vector3, DataTile> _gameTiles;
     private static Entity _entity;
     private static Tilemap _tilemap = GameObject.Find("Map").transform.GetChild(0).GetComponent<Tilemap>();
     private static GameObject _map;
@@ -19,7 +19,7 @@ public class FOV
     public static void UpdatePlayerFOV()
     {
         _entities = GameMaster.entitiesList;
-        _gameTiles = GameTiles.instance.tiles;
+        _gameTiles = TileCollection.instance.tiles;
         _entity = GameMaster.player;
         _maxDistance = 32;
     
@@ -33,7 +33,7 @@ public class FOV
         entitiesInFOV = new List<Entity>();
         entitiesInFOV.Clear();
         _entities = GameMaster.entitiesList;
-        _gameTiles = GameTiles.instance.tiles;
+        _gameTiles = TileCollection.instance.tiles;
         _entity = entity;
         _maxDistance = distance;
 
@@ -46,7 +46,7 @@ public class FOV
     //If tile is explored, change color.alpha to 0.5. If it's not, change it to 0 so it will be invisible
     private static void CheckIfExplored()
     {
-        foreach (KeyValuePair<Vector3, WorldTile> tiles in _gameTiles)
+        foreach (KeyValuePair<Vector3, DataTile> tiles in _gameTiles)
         {
             var color = tiles.Value.TilemapMember.GetColor(tiles.Value.LocalPlace);
             if (!tiles.Value.IsExplored) { color.a = 0.0f; }
