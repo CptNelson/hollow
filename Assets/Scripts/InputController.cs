@@ -1,10 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : ScriptableObject {
+public class InputController : Component
+{
+    public override void UpdateComponent()
+    {
+        
+    }
 
-    public static IEnumerator WaitForKeyPress()
+    public IEnumerator WaitForKeyPress()
     {
         FOV.UpdatePlayerFOV();
         bool done = false;
@@ -17,17 +21,17 @@ public class PlayerController : ScriptableObject {
                 else if (Input.GetKey("left")) { MoveTo(-1, 0); }
                 else if (Input.GetKey("right")) { MoveTo(1, 0); }
                 else if (Input.GetKeyDown(KeyCode.Space))
-                    { GameMaster.entitiesList[1].GetComponent<ActionComponent>().NextAction = 
-                      GameMaster.entitiesList[1].GetComponent<AIComponent>().ChooseAction(); }
-                else { GameMaster.player.GetComponent<ActionComponent>().NextAction = new SayName(GameMaster.player); }
+                {
+
+                }
+                else { entity.GetComponent<ActionComponent>().NextAction = new SayName(entity); }
                 done = true;
             }
             yield return null; // wait until next frame, then continue execution from here (loop continues)
         }
     }
-    public static void MoveTo(int x, int y)
+    public void MoveTo(int x, int y)
     {
-        GameMaster.player.GetComponent<ActionComponent>().NextAction = new Walk(GameMaster.player, x, y);
+        entity.GetComponent<ActionComponent>().NextAction = new Walk(entity, x, y);
     }
 }
-

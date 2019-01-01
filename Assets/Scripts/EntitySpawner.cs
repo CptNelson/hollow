@@ -25,7 +25,7 @@ public class EntitySpawner : ScriptableObject
         //Player needs to be created first.
 
         EntityFactory factory = new EntityFactory();
-        Entity player = factory.CreateEntity("Player", new List<IComponent> { new BodyComponent(), new ActionComponent() });
+        Entity player = factory.CreateEntity("Player", new List<IComponent> { new BodyComponent(), new ActionComponent(), new InputController() });
         player.NeedsUserInput = true;
         player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
         _entitiesList.Add(player);

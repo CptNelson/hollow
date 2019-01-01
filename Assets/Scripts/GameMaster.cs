@@ -101,11 +101,11 @@ public class GameMaster : MonoBehaviour
             //reverse list because we need it for removing entitites from list while it's iterating.
             foreach (Entity entity in actorsList.Reverse<Entity>())
             {
-
-                if (entity.NeedsUserInput)
+                //if entity has the input component, wait for input before continuing.
+                if (entity.HasComponent<InputController>())
                 {
                     // wait for player to do somethingg before continuing
-                    yield return PlayerController.WaitForKeyPress();
+                    yield return entity.GetComponent<InputController>().WaitForKeyPress();
                     
                     actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
                 }
