@@ -8,6 +8,23 @@ public interface IAction
     void Execute();
 }
 
+public class WaitAction : IAction
+{
+    public bool IsCompleted { get; set; }
+
+    public WaitAction()
+    {
+
+    }
+
+    public void Execute()
+    {
+
+        IsCompleted = true;
+    }
+}
+
+
 public class Walk : IAction
 {
     private readonly Entity _entity;

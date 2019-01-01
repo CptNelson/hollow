@@ -204,8 +204,9 @@ public class GetAStarPath
             _current = astar.cameFrom[_current];
             
         }
-        
+
         path.Reverse();
+        path.Add(start);
         return path;
     }
 }

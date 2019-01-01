@@ -20,18 +20,29 @@ abstract public class Component : IComponent
 
 public class BodyComponent : Component
     {
-        //check if this is physical entity.
-        public bool HasBody { get { return _hasBody; } set { _hasBody = value; } }
-        //Every entity has speed. It effects Amount of actions entity can do in given turn. 
-        public int Speed { get { return _speed; } set { _speed = value; } }
- 
-        private bool _hasBody = true;
-        private int _speed;
+    //check if this is physical entity.
+    public bool HasBody { get { return _hasBody; } set { _hasBody = value; } }
+    //Every entity has speed. It effects Amount of actions entity can do in given turn. 
 
-        public override void UpdateComponent()
+    private bool _hasBody = true;
+
+
+    public override void UpdateComponent()
+    {
+
+    }
+
+    public void TakeDamage(int amount)
+    {
+        entity.HP -= amount;
+        Debug.Log("HP: " + entity.HP);
+        if (entity.HP <= 0)
         {
-
+            entity.Sprite.SetActive(false);
+            entity.Alive = false;
         }
+    }
+
     }
 //Component that makes the entity an actor. Game loop asks for actions from everyone who has this component
 //don't add any actions here, make them own components. This is only updater/initiator for those components. Maybe Inheritance.
@@ -41,22 +52,18 @@ public class ActionComponent : Component
     public Vector3Int Goal { get { return _goal; } set { _goal = value; } }
     //sets actions tha the Game loop executes.
     public IAction NextAction { get { return _nextAction; } set { _nextAction = value; } }
-    //Every actionable entity has some kind of AI that chooses what they will do at given situation.
-    public EntityAI Ai { get { return _ai; } set { _ai = value; } }
+    public int Speed { get { return _speed; } set { _speed = value; } }
+    public int Energy { get { return _energy; } set { _energy = value; } }
 
+    private int _speed = 50;
+    private int _energy = 0;
     private Vector3Int _goal = new Vector3Int(-1, -1, -1);
     private IAction _nextAction;
-    private EntityAI _ai;
 
     public override void UpdateComponent()
     {
-    }
-
-    //Goal has to be something, so set it outside the map. 
-    //TODO: make a better bug catcher.
-    public void ResetGoal()
-    {
-     //   Goal = new Vector3Int(-1, -1, -1);
+        Energy += _speed;
+        Debug.Log(entity.Id + " Energy: " + _energy + " " + _speed);
     }
 
     public virtual IAction GetAction()
@@ -64,7 +71,12 @@ public class ActionComponent : Component
         //entity is updated at beginning of its turn.
         //this should be somewhere else, probably.
         //maybe a ActorComponent that calls every components updates when it's asked for next action.
-        entity.UpdateEntity();
+        if (entity.GetComponent<ActionComponent>().Energy < 100)
+        {
+            return new WaitAction();
+        }
+
+        Energy -= 100;
         //return the action entity chose for the next move.
         var _action = NextAction;
         Debug.Log(entity.Id + " getting action: " + _action);

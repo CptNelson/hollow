@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class GameMaster : MonoBehaviour
 {
     public GameObject map;
-    public GameObject fovMap;
     public static List<Entity> entitiesList;
     public static Entity player;
     public static ActionManager actionManager;
     public static int width = 54;
     public static int height = 32;
+    public static UI ui;
 
     public Canvas canvas;
     public Text text;
@@ -21,6 +21,7 @@ public class GameMaster : MonoBehaviour
     private Utils utils;
     private static Tilemap _tilemap;
     private EntitySpawner _entitySpawner;
+
 
 
 
@@ -37,20 +38,10 @@ public class GameMaster : MonoBehaviour
         //create the level and entities
         CreateLevel();
         AddEntities();
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        if (canvas != null)
-        {
-            GameObject textObject = new GameObject("TextComp");
-            textObject.transform.SetParent(canvas.transform);
+        ui = new UI();
 
-            
-            textObject.AddComponent<Text>();
-            textObject.GetComponent<RectTransform>().sizeDelta = new Vector2Int(1200, 120);
-            textObject.transform.localPosition = new Vector3Int(0, -340, 0);
-            textObject.GetComponent<Text>().font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-            textObject.GetComponent<Text>().fontSize = 32;
-            textObject.GetComponent<Text>().text = "Stars Hollow";
-        }
+
+
     }
 
     private void CreateLevel()
@@ -85,12 +76,12 @@ public class GameMaster : MonoBehaviour
         ActionManager actionManager = new ActionManager();
         List<Entity> actorsList = new List<Entity>();
 
-        foreach(Entity entity in entitiesList)
+        foreach (Entity entity in entitiesList)
         {
             if (entity.HasComponent<ActionComponent>())
             {
                 actorsList.Add(entity);
-            }      
+            }
         }
 
         bool playing = true;
@@ -101,13 +92,22 @@ public class GameMaster : MonoBehaviour
             //reverse list because we need it for removing entitites from list while it's iterating.
             foreach (Entity entity in actorsList.Reverse<Entity>())
             {
+                entity.UpdateEntity();
                 //if entity has the input component, wait for input before continuing.
+                
+               
                 if (entity.HasComponent<InputController>())
                 {
-                    // wait for player to do somethingg before continuing
+                    if (entity.GetComponent<ActionComponent>().Energy < 100)
+                    {
+                        actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
+                    }
+                    else { 
+                    // wait for player to do something before continuing
                     yield return entity.GetComponent<InputController>().WaitForKeyPress();
-                    
+
                     actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
+                    }
                 }
                 else
                 {
@@ -116,9 +116,10 @@ public class GameMaster : MonoBehaviour
                     if (!entity.Alive)
                     {
                         entitiesList.Remove(entity);
+                        Destroy(entity.Sprite);
                     }
-                    if (entity.Alive) {
-                        
+                    if (entity.Alive)
+                    {
                         //entity.GetComponent<ActionComponent>().NextAction = entity.GetComponent<AIComponent>().ChooseAction();
                         actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());
                         //Debug.Log("next: " + entity.Id +" " + entity.GetComponent<ActionComponent>().NextAction);

@@ -25,6 +25,7 @@ public class Entity : CoreEntity
     public string Name { get { return _name; } set { _name = value; } }
     //If entity is dead, it is removed from the Game loop
     public bool Alive { get { return _alive; } set { _alive = value; } }
+    public string Id = string.Empty;
 
     private Vector3Int _position;
     private GameObject _sprite;
@@ -42,7 +43,17 @@ public class Entity : CoreEntity
         Name = _id;
         components = new List<IComponent>();
     }
-        public string Id = string.Empty;
+
+
+    //Every turn entity and its components are updated. 
+    public void UpdateEntity()
+    {
+        // Debug.Log("Update: " + Id + " cmp: " + components.Count);
+        foreach (Component cmp in components)
+        {
+            cmp.UpdateComponent();
+        }
+    }
 
     public Entity AddComponent(IComponent newComponent)
     {
@@ -91,16 +102,6 @@ public class Entity : CoreEntity
             if (cmp is T) return true;
 
         return false;
-    }
-
-    //Every turn entity and its components are updated. 
-    public void UpdateEntity()
-    {
-       // Debug.Log("Update: " + Id + " cmp: " + components.Count);
-        foreach(Component cmp in components)
-        {
-            cmp.UpdateComponent();
-        }
     }
 
 }

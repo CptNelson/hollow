@@ -26,7 +26,9 @@ public class EntitySpawner : ScriptableObject
 
         EntityFactory factory = new EntityFactory();
         Entity player = factory.CreateEntity("Player", new List<IComponent> { new BodyComponent(), new ActionComponent(), new InputController() });
+        
         player.NeedsUserInput = true;
+        player.GetComponent<ActionComponent>().Speed = 55;
         player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
         _entitiesList.Add(player);
 
@@ -36,9 +38,7 @@ public class EntitySpawner : ScriptableObject
             Entity barbarian = factory.CreateEntity("Barbarian", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent() });
             barbarians.Add(barbarian);
             barbarians[i].Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/barbarian"));
-            barbarians[i].GetComponent<ActionComponent>().ResetGoal();
-                 
-            
+
             //Debug.Log("Barbarian goal: " + barbarians[i].GetComponent<ActionComponent>().Goal);
             //barbarians[i].GetComponent<ActionComponent>().NextAction = barbarians[i].GetComponent<AIComponent>().ChooseAction();
 
@@ -49,8 +49,8 @@ public class EntitySpawner : ScriptableObject
         Entity troll = factory.CreateEntity("Troll", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent() });
         troll.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/troll"));
         //troll.GetComponent<ActionComponent>().Ai = new TrollAI(troll);
-        troll.GetComponent<ActionComponent>().ResetGoal();
-        
+        troll.GetComponent<ActionComponent>().Speed = 25;
+
         //        troll.GetComponent<ActionComponent>().NextAction = troll.GetComponent<AIComponent>().ChooseAction();
 
         _entitiesList.Add(troll);
