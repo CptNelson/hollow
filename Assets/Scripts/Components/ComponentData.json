@@ -1,0 +1,7 @@
+﻿[
+  {
+    "id": "Player",
+    "hp":  20,
+    "components": [ "BodyComponent", "ActionComponent", "AttackComponent", "InputComponent" ]
+  },
+]

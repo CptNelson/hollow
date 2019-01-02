@@ -9,8 +9,6 @@ using UnityEngine;
 public class ItemComponent : Component
 {
     public int Weigth { get { return _weigth; } set { _weigth = value; } }
-    
-
     private int _weigth;
 
     public override void UpdateComponent()
@@ -20,6 +18,7 @@ public class ItemComponent : Component
 
     virtual public void Use(Entity target)
     {
+        Debug.Log("You look at the " + entity.Id + ".");
         CheckEffects(target);
     }
 
@@ -31,26 +30,58 @@ public class ItemComponent : Component
             Debug.Log(components.Count);
         }
     }
+}
+// base class for containers.
+public class ItemHolder : ItemComponent
+{
+    public int Capacity { get { return _capacity; } set { _capacity = value; } }
+    private int _capacity;
+}
 
+public class Backpack : ItemHolder
+{
+    public Backpack()
+    {
+        Weigth = 3;
+        Capacity = 10;
+    }
 }
 
 
-public class Potion : ItemComponent
+//Base class for items that have limited uses.
+public class Consumable : ItemComponent
 {
+    public int UsesLeft { get { return _usesLeft;  } set { _usesLeft = value;  } }
+
+    private int _usesLeft;
+}
+
+
+public class Potion : Consumable
+{
+    
     public Potion()
     {
+        Weigth = 1;
         components.Add(new HealEffect());
+        UsesLeft = 3;
     }
     
 
     public override void Use(Entity target)
     {
-        Debug.Log("You look at the " + entity.Id + ".");
+        
+        if (UsesLeft > 1)
+        {
+            CheckEffects(target);
+            UsesLeft -= 1;
+        }
 
-        CheckEffects(target);
+        else Debug.Log("No uses left!");
 
     }
 }
+
 
 //------------------EFFECTS----------------
 public class BaseEffect : Component
@@ -62,8 +93,6 @@ public class BaseEffect : Component
     public virtual void UseEffect(Entity target)
     {
     }
-
-    
 }
 
 public class HealEffect : BaseEffect
