@@ -108,7 +108,7 @@ public static class SCast
         _entity = GameMaster.player;
         //Debug.Assert(_tilemapPosn.x >= 0 && _tilemapPosn.x < _tilemap.xDim);
         //Debug.Assert(_tilemapPosn.y >= 0 && _tilemapPosn.y < _tilemap.yDim);
-
+        //CheckIfExplored();
         // Viewer's cell is always visible.
         if (_gameTiles.TryGetValue(_entity.Position, out _tile))
         {
@@ -124,9 +124,31 @@ public static class SCast
         // NOTE: depending on the compiler, it's possible that passing the octant transform
         // values as four integers rather than an object reference would speed things up.
         // It's much tidier this way though.
+        CheckIfExplored();
         for (int txidx = 0; txidx < s_octantTransform.Length; txidx++)
         {
             CastLight(_tilemap, _tilemapPosn, viewRadius, 1, 1.0f, 0.0f, s_octantTransform[txidx]);
+        }
+    }
+
+
+    private static void CheckIfExplored()
+    {
+        for (int x = 0; x < GameMaster.width; x++)
+        {
+            for (int y = 0; y < GameMaster.height; y++)
+            {
+                var position = new Vector3Int(x, y, 0);
+                if (_gameTiles.TryGetValue(position, out _tile))
+                {
+                    var color = _tile.TilemapMember.GetColor(position);
+
+                     if (!_tile.IsExplored) { color.a = 0.0f; }
+                    else  if (_tile.IsExplored) { color.a = 0.5f; }
+
+                    _tile.TilemapMember.SetColor(position, color);
+                }
+            }
         }
     }
 
@@ -149,6 +171,8 @@ public static class SCast
             int startColumn, float leftViewSlope, float rightViewSlope, OctantTransform txfrm)
     {
         //Debug.Assert(leftViewSlope >= rightViewSlope);
+
+
 
         // Used for distance test.
         float viewRadiusSq = viewRadius * viewRadius;
@@ -233,10 +257,18 @@ public static class SCast
                 float distanceSquared = xc * xc + yc * yc;
                 if (distanceSquared <= viewRadiusSq)
                 {
+          
+
                     if (_gameTiles.TryGetValue(new Vector3Int(_tilemapX, _tilemapY, 0), out _tile))
                     {
-                        _tile.SetIsVisible(true);
+
+                        _tile.SetTileVisibility(1.0f);
+                        _tile.IsVisible = true;
+                       // Debug.Log(_tile.TilemapMember.color.a);
+                        _tile.IsExplored = true;
                     }
+
+                    
                     // _tilemap.SetLight(_tilemapX, _tilemapY, distanceSquared);
                 }
                 bool testBool = true;

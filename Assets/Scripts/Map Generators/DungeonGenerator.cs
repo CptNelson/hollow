@@ -141,6 +141,7 @@ public class DungeonGenerator : MonoBehaviour
                 var color = _tilemap.GetColor(new Vector3Int(x, y, 0));
                 color.a = 0;
                 _tilemap.SetColor(new Vector3Int(x, y, 0), color);
+
             }
         }
     }

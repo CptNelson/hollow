@@ -12,7 +12,7 @@ public class InputController : Component
     public IEnumerator WaitForKeyPress()
     {
         //Shadowcast.UpdatePlayerFOV();
-        SCast.ComputeVisibility(entity.Position, 24);
+        SCast.ComputeVisibility(entity.Position, 14);
         //FOV.UpdatePlayerFOV();
         bool done = false;
         while (!done) // essentially a "while true", but with a bool to break out naturally

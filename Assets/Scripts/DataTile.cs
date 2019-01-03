@@ -24,7 +24,8 @@ public class DataTile : CoreEntity
 
 
     //below is needed for pathfinding
-    public bool IsExplored { get; set; }
+    public bool IsExplored { get { return _isExplored; } set { _isExplored = value; } }
+    private bool _isExplored = false;
 
     public DataTile ExploredFrom { get; set; }
 
@@ -32,7 +33,7 @@ public class DataTile : CoreEntity
 
     public bool IsTransparent { get; set; }
 
-    public bool IsVisible { get { return _isVisible; }}
+    public bool IsVisible { get { return _isVisible; } set { _isVisible = value; } }
     private bool _isVisible;
 
     public bool SetIsVisible(bool isVisible)
@@ -41,6 +42,7 @@ public class DataTile : CoreEntity
         {
             _isVisible = isVisible;
             SetTileVisibility(1.0f);
+            
             // visibility changed
             return true;
         }
@@ -56,6 +58,7 @@ public class DataTile : CoreEntity
             var color = this.TilemapMember.GetColor(this.Position);
             color.a = alpha;
             this.TilemapMember.SetColor(this.Position, color);
+
     }
 
 }

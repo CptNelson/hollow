@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ public class Shadowcast
         _entity = GameMaster.player;
         _maxDistance = 8;
         HideEntities();
-        //CheckIfExplored();
+        CheckIfExplored();
         for (int octant = 0; octant < 8; octant++)
         {
             DoTheFOV(octant);
@@ -113,7 +113,7 @@ public class Shadowcast
                         if (!fullShadow)
                         {
                         //Debug.Log("row: " + row + " col: " + col);
-                            blocksLight = !_tile.IsTransparent;
+                            blocksLight = !_tile.IsWalkable;
                             projection = GetProjection(col, row);
                         //Debug.Log("pro: " + projection.ToString());
                             isVisible = !IsInShadow(projection); 
@@ -343,5 +343,5 @@ public class Shadowcast
 }
 
 
-*/
+
 
