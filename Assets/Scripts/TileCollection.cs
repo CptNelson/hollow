@@ -53,9 +53,9 @@ public class TileCollection : MonoBehaviour
                     Name = Tilemap.GetSprite(localPlace).ToString(),
                     Position = new Vector3Int(localPlace.x, localPlace.y, 0),
                     Cost = 420,
-                    IsWalkable = false,
                     HP = 666,
-                    IsTransparent = false
+                    IsTransparent = false,
+                    IsWalkable = false,
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
@@ -73,8 +73,9 @@ public class TileCollection : MonoBehaviour
                     Position = new Vector3Int(localPlace.x, localPlace.y, 0),
                     Cost = 4,
                     HP = 30,
-                    IsWalkable = true,
-                    IsTransparent = false
+                    IsTransparent = false,
+                    IsWalkable = true
+
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }

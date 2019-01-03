@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class InputController : Component
 {
@@ -10,7 +11,8 @@ public class InputController : Component
 
     public IEnumerator WaitForKeyPress()
     {
-        Shadowcast.UpdatePlayerFOV();
+        //Shadowcast.UpdatePlayerFOV();
+        SCast.ComputeVisibility(entity.Position, 24);
         //FOV.UpdatePlayerFOV();
         bool done = false;
         while (!done) // essentially a "while true", but with a bool to break out naturally

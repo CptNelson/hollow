@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,8 +26,16 @@ public class Shadowcast
         _entity = GameMaster.player;
         _maxDistance = 8;
         HideEntities();
-        CheckIfExplored();
-        DoTheFOV();
+        //CheckIfExplored();
+        for (int octant = 0; octant < 8; octant++)
+        {
+            DoTheFOV(octant);
+        }
+        if (_gameTiles.TryGetValue(_entity.Position, out _tile))
+        {
+            _tile.SetIsVisible(true);
+        }
+         
     }
 
     public static List<Entity> UpdateEntityFOV(Entity entity, int distance)
@@ -57,29 +66,43 @@ public class Shadowcast
     }
 
     //This is for the player
-    private static void DoTheFOV()
+    private static void DoTheFOV(int octant)
     {
 
-        int row, col = 0 ;
+       // int row, col = 0 ;
 
         // iterate to make a full square from octants
-        for (int octant = 0; octant < 8; octant++)
-        {
 
-            _shadows.Clear();
+            Vector3Int rowInc = new Vector3Int(0, 0, 0);
+            Vector3Int colInc = new Vector3Int(0, 0, 0);
+
+            switch (octant)
+            {
+                case 0: rowInc.y = -1; colInc.x = 1; break;
+                case 1: rowInc.x = 1; colInc.y = -1; break;
+                case 2: rowInc.x = 1; colInc.y = 1; break;
+                case 3: rowInc.y = 1; colInc.x = 1; break;
+                case 4: rowInc.y = 1; colInc.x = -1; break;
+                case 5: rowInc.x = -1; colInc.y = 1; break;
+                case 6: rowInc.x = -1; colInc.y = -1; break;
+                case 7: rowInc.y = -1; colInc.x = -1; break;
+            }
+
+           // _shadows.Clear();
+
             bool fullShadow = false;
 
-            for (row = 1; row < _maxDistance; row++)
+            for (int row = 1; row < _maxDistance; row++)
             {
-                var position = GetPosition(octant, row, col);
+                Vector3Int position = _entity.Position + (rowInc * row);
 
-                for (col = 0; col <= row; col++)
+                for (int col = 0; col <= row; col++)
                 {
                     bool blocksLight = false;
                     bool isVisible = false;
                     Shadow projection = null;
 
-
+                
                    // Debug.Log("row: " + row);
                     // GetPosition gets different positions depending on what octant iteration we are at.
 
@@ -89,10 +112,12 @@ public class Shadowcast
                     {
                         if (!fullShadow)
                         {
+                        //Debug.Log("row: " + row + " col: " + col);
                             blocksLight = !_tile.IsTransparent;
                             projection = GetProjection(col, row);
+                        //Debug.Log("pro: " + projection.ToString());
                             isVisible = !IsInShadow(projection); 
-                    }
+                        }
 
                         _tile.SetIsVisible(isVisible);
                         _tile.IsExplored = true;
@@ -110,11 +135,11 @@ public class Shadowcast
                         {
                             fullShadow = AddShadow(projection);
                         }
-                        position += new Vector3Int(1, 0, 0);
+                        position += colInc;
                     }
                 }
             }
-        }
+        
     }
 
     public static List<Shadow> _shadows;
@@ -170,7 +195,7 @@ public class Shadowcast
         // unify the bottom and top edges of the tile
         float start = Math.Min(col / rowBottomWidth, col / rowTopWidth);
         float end = Math.Max((col + 1.0f) / rowBottomWidth, (col + 1.0f) / rowTopWidth);
-
+       // Debug.Log("s: " + start + " end: " + end);
         return new Shadow(start, end);
     }
 
@@ -318,5 +343,5 @@ public class Shadowcast
 }
 
 
-
+*/
 
