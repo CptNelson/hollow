@@ -113,8 +113,10 @@ public class AttackComponent : Component
 
 public class AIComponent : Component
 {
+    public List<Entity> EntitiesInFov { get { return _entitiesNear; } set { _entitiesNear = value; } }
     private Entity _entity;
     private IAction _action;
+    public List<Entity> _entitiesNear;
 
     public override void UpdateComponent()
     {
@@ -132,18 +134,22 @@ public class AIComponent : Component
           //  _action = null;
         }
 
-        //patrol until sees player, then go to player.
-        var entitiesInFov = FOV.UpdateEntityFOV(entity, 8);
+        _entitiesNear = new List<Entity>();
 
-        foreach (Entity fovEntity in entitiesInFov)
+        //patrol until sees player, then go to player.
+        SCast.ComputeVisibility(entity.Position, 4, entity);
+        Debug.Log(EntitiesInFov);
+        foreach (Entity fovEntity in EntitiesInFov)
         {
             //if entity sees player, set goal to player's position. 
             if (fovEntity.Id == "Player")
             {
                 //Debug.Log("goal: " + _entity.GetComponent<ActionComponent>().Goal);
                 entity.GetComponent<ActionComponent>().Goal = fovEntity.Position;
-            }
+            } 
         }
+
+        //TODO: if doesn't see player, start patrolling again.
 
         //If there's no goal position yet, set new one.
         if (entity.GetComponent<ActionComponent>().Goal == new Vector3Int(-1, -1, -1))

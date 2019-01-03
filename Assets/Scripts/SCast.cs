@@ -92,7 +92,7 @@ public static class SCast
     private static List<Entity> _entities;
     private static int _maxDistance;
     private static Vector3Int _worldPoint;
-    private static List<Entity> entitiesInFOV;
+    private static List<Entity> _entitiesInFOV;
 
     /// <summary>
     /// Lights up cells visible from the current position.  Clear all lighting before calling.
@@ -100,12 +100,13 @@ public static class SCast
     /// <param name="_tilemap">The cell _tilemap definition.</param>
     /// <param name="_tilemapPosn">The player's position within the _tilemap.</param>
     /// <param name="viewRadius">Maximum view distance; can be a fractional value.</param>
-    public static void ComputeVisibility(Vector3Int _tilemapPosn, float viewRadius)
+    public static void ComputeVisibility(Vector3Int _tilemapPosn, float viewRadius, Entity entity)
     {
         Tilemap _tilemap = GameObject.Find("Map").transform.GetChild(0).GetComponent<Tilemap>();
         _entities = GameMaster.entitiesList;
         _gameTiles = TileCollection.instance.tiles;
-        _entity = GameMaster.player;
+        _entity = entity;
+        _entitiesInFOV = new List<Entity>();
         //Debug.Assert(_tilemapPosn.x >= 0 && _tilemapPosn.x < _tilemap.xDim);
         //Debug.Assert(_tilemapPosn.y >= 0 && _tilemapPosn.y < _tilemap.yDim);
         //CheckIfExplored();
@@ -125,12 +126,27 @@ public static class SCast
         // values as four integers rather than an object reference would speed things up.
         // It's much tidier this way though.
         CheckIfExplored();
+        HideEntities();
         for (int txidx = 0; txidx < s_octantTransform.Length; txidx++)
         {
             CastLight(_tilemap, _tilemapPosn, viewRadius, 1, 1.0f, 0.0f, s_octantTransform[txidx]);
         }
+        if (_entity.Id != "Player")
+        {
+            entity.GetComponent<AIComponent>()._entitiesNear = _entitiesInFOV;
+        }
     }
 
+
+
+    //make all entities except player invisible
+    private static void HideEntities()
+    {
+        for (int i = 1; i < _entities.Count; i++)
+        {
+            _entities[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;
+        }
+    }
 
     private static void CheckIfExplored()
     {
@@ -257,15 +273,39 @@ public static class SCast
                 float distanceSquared = xc * xc + yc * yc;
                 if (distanceSquared <= viewRadiusSq)
                 {
-          
 
-                    if (_gameTiles.TryGetValue(new Vector3Int(_tilemapX, _tilemapY, 0), out _tile))
+                    var pos = new Vector3Int(_tilemapX, _tilemapY, 0);
+                    if (_gameTiles.TryGetValue(pos, out _tile))
                     {
 
-                        _tile.SetTileVisibility(1.0f);
-                        _tile.IsVisible = true;
-                       // Debug.Log(_tile.TilemapMember.color.a);
-                        _tile.IsExplored = true;
+                        if (_entity.Id == "Player")
+                        {
+                            _tile.SetTileVisibility(1.0f);
+                            _tile.IsVisible = true;
+                            // Debug.Log(_tile.TilemapMember.color.a);
+                            _tile.IsExplored = true;
+                            //show entities that are inside FOV.
+                            foreach (Entity entity in _entities)
+                            {
+
+                                if (entity.Position == pos)
+                                {
+                                    entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
+                                }
+                            }
+                        } else
+                        {
+                            foreach (Entity ent in _entities)
+                            {
+
+                                if (ent.Position == pos)
+                                {
+                                    _entitiesInFOV.Add(ent);
+                                    
+                                }
+                            }
+                        }
+
                     }
 
                     
