@@ -17,11 +17,11 @@ public class DataTile : CoreEntity
 
     public string Name { get; set; }
 
-    public string Position { get; set; }
+    public Vector3Int Position { get; set; }
 
     public bool IsWalkable { get; set; }
 
-    public bool BlocksVision { get; set; }
+    public bool IsTransparent { get; set; }
 
     //below is needed for pathfinding
     public bool IsExplored { get; set; }
@@ -29,4 +29,31 @@ public class DataTile : CoreEntity
     public DataTile ExploredFrom { get; set; }
 
     public int Cost { get; set; }
+
+    public bool IsVisible { get { return _isVisible; }}
+    private bool _isVisible;
+
+    public bool SetIsVisible(bool isVisible)
+    {
+        if (_isVisible != isVisible)
+        {
+            _isVisible = isVisible;
+
+            // visibility changed
+            return true;
+        }
+        else
+        {
+            // no change
+            return false;
+        }
+    }
+
+    public void SetTileVisibility(float alpha) 
+    {
+            var color = this.TilemapMember.GetColor(this.Position);
+            color.a = alpha;
+            this.TilemapMember.SetColor(this.Position, color);
+    }
+
 }

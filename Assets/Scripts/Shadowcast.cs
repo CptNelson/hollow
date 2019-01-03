@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class FOV 
+public class Shadowcast
 {
     private static DataTile _tile;
     private static Dictionary<Vector3, DataTile> _gameTiles;
@@ -15,7 +15,7 @@ public class FOV
     private static int _maxDistance;
     private static Vector3Int _worldPoint;
     private static List<Entity> entitiesInFOV;
-   
+
 
     public static void UpdatePlayerFOV()
     {
@@ -71,16 +71,13 @@ public class FOV
 
 
                     // GetPosition gets different positions depending on what octant iteration we are at.
-                    var worldPoint = GetPosition(octant, row, col);
+                    var position = GetPosition(octant, row, col);
 
                     //change explored status of tiles and colors for tiles that are inside FOV.
-                    if (_gameTiles.TryGetValue(worldPoint, out _tile))
+                    if (_gameTiles.TryGetValue(position, out _tile))
                     {
-
-                        var color = _tile.TilemapMember.GetColor(_tile.LocalPlace);
-                        color.a = 1.0f;
+                        _tile.SetTileVisibility(1.0f);
                         _tile.IsExplored = true;
-                        _tile.TilemapMember.SetColor(_tile.LocalPlace, color);
                     }
 
 
@@ -88,7 +85,7 @@ public class FOV
                     foreach (Entity entity in _entities)
                     {
 
-                        if (entity.Position == worldPoint)
+                        if (entity.Position == position)
                         {
                             entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
                         }
@@ -129,7 +126,7 @@ public class FOV
     }
 
     private static Vector3Int GetPosition(int octant, int row, int col)
-    { 
+    {
         switch (octant)
         {
             case 0:
@@ -162,7 +159,7 @@ public class FOV
         }
     }
 
-   
+
 
 }
 

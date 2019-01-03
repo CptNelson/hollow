@@ -31,7 +31,7 @@ public class EntitySpawner : ScriptableObject
         player.GetComponent<ActionComponent>().Speed = 55;
         player.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/player"));
         _entitiesList.Add(player);
-
+        /*
         barbarians = new List<Entity>();
         for (int i = 0; i < 3; i++)
         {
@@ -44,7 +44,7 @@ public class EntitySpawner : ScriptableObject
 
             _entitiesList.Add(barbarians[i]);
         }
-
+        */
 
         Entity troll = factory.CreateEntity("Troll", new List<IComponent> { new BodyComponent(), new ActionComponent(), new AIComponent(), new AttackComponent() });
         troll.Sprite = Instantiate(Resources.Load<GameObject>("Prefabs/troll"));

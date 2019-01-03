@@ -10,7 +10,8 @@ public class InputController : Component
 
     public IEnumerator WaitForKeyPress()
     {
-        FOV.UpdatePlayerFOV();
+        Shadowcast.UpdatePlayerFOV();
+        //FOV.UpdatePlayerFOV();
         bool done = false;
         while (!done) // essentially a "while true", but with a bool to break out naturally
         {

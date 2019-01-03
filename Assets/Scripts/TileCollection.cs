@@ -51,11 +51,11 @@ public class TileCollection : MonoBehaviour
                     TileBase = Tilemap.GetTile(localPlace),
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
-                    Position = localPlace.x + "," + localPlace.y,
+                    Position = new Vector3Int(localPlace.x, localPlace.y, 0),
                     Cost = 420,
                     IsWalkable = false,
                     HP = 666,
-                    BlocksVision = true
+                    IsTransparent = false
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
@@ -70,11 +70,11 @@ public class TileCollection : MonoBehaviour
                     TileBase = Tilemap.GetTile(localPlace),
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
-                    Position = localPlace.x + "," + localPlace.y,
+                    Position = new Vector3Int(localPlace.x, localPlace.y, 0),
                     Cost = 4,
                     HP = 30,
                     IsWalkable = true,
-                    BlocksVision = true
+                    IsTransparent = false
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
@@ -88,9 +88,9 @@ public class TileCollection : MonoBehaviour
                     TileBase = Tilemap.GetTile(localPlace),
                     TilemapMember = Tilemap,
                     Name = Tilemap.GetSprite(localPlace).ToString(),
-                    Position = localPlace.x + "," + localPlace.y,
+                    Position = new Vector3Int(localPlace.x, localPlace.y, 0),
                     Cost = 0,
-                    BlocksVision = false,
+                    IsTransparent = true,
                     IsWalkable = true
                     
             };
