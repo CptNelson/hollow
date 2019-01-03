@@ -21,7 +21,7 @@ public class DataTile : CoreEntity
 
     public bool IsWalkable { get; set; }
 
-    public bool IsTransparent { get; set; }
+
 
     //below is needed for pathfinding
     public bool IsExplored { get; set; }
@@ -29,6 +29,8 @@ public class DataTile : CoreEntity
     public DataTile ExploredFrom { get; set; }
 
     public int Cost { get; set; }
+
+    public bool IsTransparent { get; set; }
 
     public bool IsVisible { get { return _isVisible; }}
     private bool _isVisible;
@@ -38,7 +40,7 @@ public class DataTile : CoreEntity
         if (_isVisible != isVisible)
         {
             _isVisible = isVisible;
-
+            SetTileVisibility(1.0f);
             // visibility changed
             return true;
         }
