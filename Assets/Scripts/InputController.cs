@@ -13,7 +13,7 @@ public class InputController : Component
     {
         //Shadowcast.UpdatePlayerFOV();
         //Debug.Log(entity.Position+ " " + entity.Id);
-        SCast.ComputeVisibility(entity.Position, 14, entity);
+        SCast.ComputeVisibility(entity.Position, 24, entity);
         //FOV.UpdatePlayerFOV();
         bool done = false;
         while (!done) // essentially a "while true", but with a bool to break out naturally
