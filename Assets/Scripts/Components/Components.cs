@@ -138,7 +138,6 @@ public class AIComponent : Component
 
         //patrol until sees player, then go to player.
         SCast.ComputeVisibility(entity.Position, 4, entity);
-        Debug.Log(EntitiesInFov);
         foreach (Entity fovEntity in EntitiesInFov)
         {
             //if entity sees player, set goal to player's position. 

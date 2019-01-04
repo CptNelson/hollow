@@ -39,9 +39,10 @@ public class TileCollection : MonoBehaviour
             string wall = "wall";
             string bush = "bush";
             string ground = "ground";
-            string thisTile = Tilemap.GetSprite(localPlace).ToString();
-            
-            if (thisTile.CompareTo(wall) == 1) 
+            string thisTile = Tilemap.GetSprite(localPlace).name;
+           // Debug.Log(thisTile + wall);
+
+            if (thisTile == wall) 
             {
                 var tile = new DataTile
                 {
@@ -55,12 +56,12 @@ public class TileCollection : MonoBehaviour
                     Cost = 420,
                     HP = 666,
                     IsTransparent = false,
-                    IsWalkable = false,
+                    IsWalkable = false
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
 
-            else if (thisTile.CompareTo(bush) == 1)
+            else if (thisTile == bush)
             {
                 var tile = new DataTile
                 {
@@ -79,7 +80,7 @@ public class TileCollection : MonoBehaviour
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }
-            else if (thisTile.CompareTo(ground) == 1) 
+            else if (thisTile == ground) 
             {
                 var tile = new DataTile
                 {

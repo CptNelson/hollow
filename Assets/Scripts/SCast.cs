@@ -111,10 +111,7 @@ public static class SCast
         //Debug.Assert(_tilemapPosn.y >= 0 && _tilemapPosn.y < _tilemap.yDim);
         //CheckIfExplored();
         // Viewer's cell is always visible.
-        if (_gameTiles.TryGetValue(_entity.Position, out _tile))
-        {
-            _tile.SetIsVisible(true);
-        }
+
         // Cast light into cells for each of 8 octants.
         //
         // The left/right inverse slope values are initially 1 and 0, indicating a diagonal
@@ -130,6 +127,10 @@ public static class SCast
         for (int txidx = 0; txidx < s_octantTransform.Length; txidx++)
         {
             CastLight(_tilemap, _tilemapPosn, viewRadius, 1, 1.0f, 0.0f, s_octantTransform[txidx]);
+        }
+        if (_gameTiles.TryGetValue(_entity.Position, out _tile))
+        {
+            _tile.SetIsVisible(true);
         }
         if (_entity.Id != "Player")
         {
@@ -305,16 +306,12 @@ public static class SCast
                                 }
                             }
                         }
-
                     }
-
-                    
-                    // _tilemap.SetLight(_tilemapX, _tilemapY, distanceSquared);
                 }
                 bool testBool = true;
                 if (_gameTiles.TryGetValue(new Vector3Int(_tilemapX, _tilemapY, 0), out _tile))
                 {
-                    testBool = !_tile.IsWalkable;
+                    testBool = !_tile.IsTransparent;
                 }
                 bool curBlocked = testBool;
 
