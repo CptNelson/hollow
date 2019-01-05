@@ -44,7 +44,7 @@ public class TileCollection : MonoBehaviour
 
             if (thisTile == wall) 
             {
-                var tile = new DataTile
+                var tile = new DataTile("wall")
                 {
                     // wall
                     LocalPlace = localPlace,
@@ -63,7 +63,7 @@ public class TileCollection : MonoBehaviour
 
             else if (thisTile == bush)
             {
-                var tile = new DataTile
+                var tile = new DataTile("bush")
                 {
                     // bush
                     LocalPlace = localPlace,
@@ -82,7 +82,7 @@ public class TileCollection : MonoBehaviour
             }
             else if (thisTile == ground) 
             {
-                var tile = new DataTile
+                var tile = new DataTile("ground")
                 {
                     // ground
                     LocalPlace = localPlace,

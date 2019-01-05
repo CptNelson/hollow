@@ -88,9 +88,9 @@ public class FOV
                     foreach (Entity entity in _entities)
                     {
 
-                        if (entity.Position == worldPoint)
+                        if (entity.GetComponent<LivingComponent>().Position == worldPoint)
                         {
-                            entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
+                            entity.GetComponent<LivingComponent>().Sprite.GetComponent<SpriteRenderer>().enabled = true;
                         }
                     }
                 }
@@ -118,7 +118,7 @@ public class FOV
                     foreach (Entity entity in _entities)
                     {
 
-                        if (entity.Position == worldPoint)
+                        if (entity.GetComponent<LivingComponent>().Position == worldPoint)
                         {
                             entitiesInFOV.Add(entity);
                         }
@@ -133,23 +133,23 @@ public class FOV
         switch (octant)
         {
             case 0:
-                return new Vector3Int(_entity.Position.x + col, _entity.Position.y + row, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x + col, _entity.GetComponent<LivingComponent>().Position.y + row, 0);
             case 1:
-                return new Vector3Int(_entity.Position.x - col, _entity.Position.y - row, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x - col, _entity.GetComponent<LivingComponent>().Position.y - row, 0);
             case 2:
-                return new Vector3Int(_entity.Position.x - col, _entity.Position.y + row, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x - col, _entity.GetComponent<LivingComponent>().Position.y + row, 0);
             case 3:
-                return new Vector3Int(_entity.Position.x + col, _entity.Position.y - row, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x + col, _entity.GetComponent<LivingComponent>().Position.y - row, 0);
             case 4:
-                return new Vector3Int(_entity.Position.x + row, _entity.Position.y + col, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x + row, _entity.GetComponent<LivingComponent>().Position.y + col, 0);
             case 5:
-                return new Vector3Int(_entity.Position.x - row, _entity.Position.y - col, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x - row, _entity.GetComponent<LivingComponent>().Position.y - col, 0);
             case 6:
-                return new Vector3Int(_entity.Position.x + row, _entity.Position.y - col, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x + row, _entity.GetComponent<LivingComponent>().Position.y - col, 0);
             case 7:
-                return new Vector3Int(_entity.Position.x - row, _entity.Position.y + col, 0);
+                return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x - row, _entity.GetComponent<LivingComponent>().Position.y + col, 0);
         }
-        return new Vector3Int(_entity.Position.x - row, _entity.Position.y + col, 0);
+        return new Vector3Int(_entity.GetComponent<LivingComponent>().Position.x - row, _entity.GetComponent<LivingComponent>().Position.y + col, 0);
     }
 
 
@@ -158,7 +158,7 @@ public class FOV
     {
         for (int i = 1; i < _entities.Count; i++)
         {
-            _entities[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;
+            _entities[i].GetComponent<LivingComponent>().Sprite.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 

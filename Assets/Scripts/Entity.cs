@@ -4,34 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CoreEntity
+
+public class Entity
 {
+    public string Id = string.Empty;
+
     public List<IComponent> components;
     //Every entity has a HP.
     public int HP { get { return _hp; } set { _hp = value; } }
     private int _hp = 10;
-}
-
-public class Entity : CoreEntity
-{
-    //Position in the xy gridmap
-    public Vector3Int Position { get { return _position; } set { _position = value; } }
-    //The sprite is set from the prefabs. It is for rendering the entity.
-    public GameObject Sprite { get { return _sprite; } set { _sprite = value; } }
-    //Game loop checks if entity is player or AI
-    public bool NeedsUserInput { get { return _needsUserInput; } set { _needsUserInput = value; } }
-
-    //TODO: Not sure if this is needed, or is Id enough
-    public string Name { get { return _name; } set { _name = value; } }
-    //If entity is dead, it is removed from the Game loop
-    public bool Alive { get { return _alive; } set { _alive = value; } }
-    public string Id = string.Empty;
-
-    private Vector3Int _position;
-    private GameObject _sprite;
-    private bool _needsUserInput; 
-    private string _name;
-    private bool _alive = true;
 
 
 
@@ -40,7 +21,6 @@ public class Entity : CoreEntity
     public Entity(string _id) 
     {
         Id = _id;
-        Name = _id;
         components = new List<IComponent>();
     }
 
@@ -117,7 +97,7 @@ public class EntityFactory
     {
         entity = new Entity(id);
         entity.AddComponents(componentList);
-        
         return entity;
     }
+
 }

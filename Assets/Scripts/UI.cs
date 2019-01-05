@@ -3,25 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI
+public class UI : Component
 {
-    Canvas canvas;
-    GameObject textObject;
+    public Canvas canvas;
+    public GameObject textObject;
     string playerName;
-    string playerHP;
+    public string playerHP;
     Entity _player;
+    int _hp;
 
-    public UI()
+    public override void UpdateComponent()
     {
-        CreateUI();
-
+        textObject.GetComponent<Text>().text = "HP: " + _player.HP;
+        Debug.Log("UI notified");
     }
 
-    private void CreateUI()
+    public void CreateUI(Entity player)
     {
+        components.Add(new HPObserver());
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        _player = GameMaster.player;
-        playerHP = _player.HP.ToString();
+        _player = player;
+        _hp = player.HP;
+        
+
+
 
         if (canvas != null)
         {
@@ -33,7 +38,7 @@ public class UI
             textObject.GetComponent<Text>().font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
             textObject.GetComponent<Text>().fontSize = 32;
             textObject.GetComponent<Text>().color = Color.blue;
-            textObject.GetComponent<Text>().text = "HP: " + playerHP;  
+            textObject.GetComponent<Text>().text = "HP: " + _player.HP;  
         }
     }
 

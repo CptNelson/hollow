@@ -13,7 +13,7 @@ public class GameMaster : MonoBehaviour
     public static ActionManager actionManager;
     public static int width = 54;
     public static int height = 32;
-    public static UI ui;
+    public static Entity ui;
 
     public Canvas canvas;
     public Text text;
@@ -21,9 +21,6 @@ public class GameMaster : MonoBehaviour
     private Utils utils;
     private static Tilemap _tilemap;
     private EntitySpawner _entitySpawner;
-
-
-
 
     void Start()
     {
@@ -38,10 +35,6 @@ public class GameMaster : MonoBehaviour
         //create the level and entities
         CreateLevel();
         AddEntities();
-        ui = new UI();
-
-
-
     }
 
     private void CreateLevel()
@@ -65,7 +58,7 @@ public class GameMaster : MonoBehaviour
         //set all entities visibility off except player's.
         for (int i = 1; i < entitiesList.Count; i++)
         {
-            entitiesList[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;
+            entitiesList[i].GetComponent<LivingComponent>().Sprite.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
@@ -113,12 +106,12 @@ public class GameMaster : MonoBehaviour
                 {
 
                     //if entity is dead, remove it from the list.
-                    if (!entity.Alive)
+                    if (!entity.GetComponent<LivingComponent>().Alive)
                     {
                         entitiesList.Remove(entity);
-                        Destroy(entity.Sprite);
+                        Destroy(entity.GetComponent<LivingComponent>().Sprite);
                     }
-                    if (entity.Alive)
+                    if (entity.GetComponent<LivingComponent>().Alive)
                     {
                         //entity.GetComponent<ActionComponent>().NextAction = entity.GetComponent<AIComponent>().ChooseAction();
                         actionManager.AddAction(entity.GetComponent<ActionComponent>().GetAction());

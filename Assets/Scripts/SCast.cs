@@ -128,7 +128,7 @@ public static class SCast
         {
             CastLight(_tilemap, _tilemapPosn, viewRadius, 1, 1.0f, 0.0f, s_octantTransform[txidx]);
         }
-        if (_gameTiles.TryGetValue(_entity.Position, out _tile))
+        if (_gameTiles.TryGetValue(_entity.GetComponent<LivingComponent>().Position, out _tile))
         {
             _tile.SetIsVisible(true);
         }
@@ -145,7 +145,7 @@ public static class SCast
     {
         for (int i = 1; i < _entities.Count; i++)
         {
-            _entities[i].Sprite.GetComponent<SpriteRenderer>().enabled = false;
+            _entities[i].GetComponent<LivingComponent>().Sprite.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
@@ -289,9 +289,9 @@ public static class SCast
                             foreach (Entity entity in _entities)
                             {
 
-                                if (entity.Position == pos)
+                                if (entity.GetComponent<LivingComponent>().Position == pos)
                                 {
-                                    entity.Sprite.GetComponent<SpriteRenderer>().enabled = true;
+                                    entity.GetComponent<LivingComponent>().Sprite.GetComponent<SpriteRenderer>().enabled = true;
                                 }
                             }
                         } else
@@ -299,7 +299,7 @@ public static class SCast
                             foreach (Entity ent in _entities)
                             {
 
-                                if (ent.Position == pos)
+                                if (ent.GetComponent<LivingComponent>().Position == pos)
                                 {
                                     _entitiesInFOV.Add(ent);
                                     

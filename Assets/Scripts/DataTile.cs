@@ -5,8 +5,16 @@ using UnityEngine.Tilemaps;
 
 
 //here is data and functions for the 'virtual' tiles. 
-public class DataTile : CoreEntity
+public class DataTile : Entity
 {
+    public DataTile() : this(string.Empty) { }
+
+    public DataTile(string _id)
+    {
+        Id = _id;
+        components = new List<IComponent>();
+    }
+
     public Vector3Int LocalPlace { get; set; }
 
     public Vector3 WorldLocation { get; set; }

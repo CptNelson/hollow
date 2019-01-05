@@ -61,13 +61,13 @@ public class Patrol : IAction
         _entity = entity;
         _goal = goal;
         List<Vector3Int> path = new List<Vector3Int>();
-        _path = GetAStarPath.ReconstructPath(_entity.Position, _goal);
+        _path = GetAStarPath.ReconstructPath(_entity.GetComponent<LivingComponent>().Position, _goal);
 
         if (_path.Count <=1)
         {
             _entity.GetComponent<ActionComponent>().Goal = Utils.GetRandomEmptyPosition();
             _path.Clear();
-            _path = GetAStarPath.ReconstructPath(_entity.Position, _goal);
+            _path = GetAStarPath.ReconstructPath(_entity.GetComponent<LivingComponent>().Position, _goal);
         }
 
         IsCompleted = false;
@@ -117,7 +117,7 @@ public class SayName : IAction
 
     public void Execute()
     {
-        Debug.Log(_entity.Position);
+        Debug.Log(_entity.GetComponent<LivingComponent>().Position);
 
         IsCompleted = true;
     }

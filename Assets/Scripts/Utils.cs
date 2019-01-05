@@ -27,7 +27,7 @@ public class Utils
     {
         for (int i = 0; i < entities.Count; i++)
         {
-            if (entities[i].Position == position)
+            if (entities[i].GetComponent<LivingComponent>().Position == position)
             {
                 return entities[i];
             }

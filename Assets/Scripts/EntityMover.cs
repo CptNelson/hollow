@@ -13,15 +13,15 @@ public class EntityMover : MonoBehaviour {
     {
         _map = GameObject.Find("Map");
 
-        Vector3Int oldCellPosition = _entity.Position;
+        Vector3Int oldCellPosition = _entity.GetComponent<LivingComponent>().Position;
         Vector3Int newCellPosition = new Vector3Int(oldCellPosition.x + x, oldCellPosition.y + y, 0);
         
 
         if (Utils.IsTileEmpty(newCellPosition) == true)
         {
             // if move is possible, update the entitys grid position and render position.
-            _entity.Position = newCellPosition;
-            _entity.Sprite.GetComponent<Transform>().position = _map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+            _entity.GetComponent<LivingComponent>().Position = newCellPosition;
+            _entity.GetComponent<LivingComponent>().Sprite.GetComponent<Transform>().position = _map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
         }
         else if (!Utils.IsTileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
         {
@@ -40,8 +40,8 @@ public class EntityMover : MonoBehaviour {
         if (Utils.IsTileEmpty(newCellPosition))
         {
             // if move is possible, update the entitys grid position and render position.
-            _entity.Position = newCellPosition;
-            _entity.Sprite.GetComponent<Transform>().position = _map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
+            _entity.GetComponent<LivingComponent>().Position = newCellPosition;
+            _entity.GetComponent<LivingComponent>().Sprite.GetComponent<Transform>().position = _map.GetComponent<Grid>().GetCellCenterLocal(newCellPosition);
         }
         else if (!Utils.IsTileEmpty(newCellPosition) && Utils.IsEntity(newCellPosition) != null)
         {
