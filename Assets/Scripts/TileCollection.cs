@@ -55,8 +55,8 @@ public class TileCollection : MonoBehaviour
                     Position = new Vector3Int(localPlace.x, localPlace.y, 0),
                     Cost = 420,
                     HP = 666,
-                    IsTransparent = false,
-                    IsWalkable = false
+                    IsTransparent = true,
+                    IsWalkable = true
                 };
                 tiles.Add(tile.WorldLocation, tile);
             }

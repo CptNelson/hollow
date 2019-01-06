@@ -46,7 +46,7 @@ External dependencies:
   If you lack something similar, just convert it to a pair of ints.
 */
 
-public static class SCast
+public static class SCast 
 {
     /// <summary>
     /// Immutable class for holding coordinate transform constants.  Bulkier than a 2D
@@ -93,7 +93,7 @@ public static class SCast
     private static int _maxDistance;
     private static Vector3Int _worldPoint;
     private static List<Entity> _entitiesInFOV;
-
+    private static Camera _camera = GameMaster._camera;
     /// <summary>
     /// Lights up cells visible from the current position.  Clear all lighting before calling.
     /// </summary>
@@ -109,7 +109,7 @@ public static class SCast
         _entitiesInFOV = new List<Entity>();
         //Debug.Assert(_tilemapPosn.x >= 0 && _tilemapPosn.x < _tilemap.xDim);
         //Debug.Assert(_tilemapPosn.y >= 0 && _tilemapPosn.y < _tilemap.yDim);
-        //CheckIfExplored();
+
         // Viewer's cell is always visible.
 
         // Cast light into cells for each of 8 octants.
@@ -132,10 +132,21 @@ public static class SCast
         {
             _tile.SetIsVisible(true);
         }
-        if (_entity.Id != "Player")
+        if (_entity.Id == "Player")
+        {
+            
+            Debug.Log(_tilemap.CellToWorld(entity.GetComponent<LivingComponent>().Position));
+            Vector3Int pos = entity.GetComponent<LivingComponent>().Position;
+
+            _camera.transform.position = _tilemap.CellToLocal(pos);
+            _camera.transform.position = _camera.transform.position + new Vector3(0, 0, -10) ;
+        }
+        else if (entity.HasComponent<AIComponent>())
         {
             entity.GetComponent<AIComponent>()._entitiesNear = _entitiesInFOV;
         }
+
+
     }
 
 

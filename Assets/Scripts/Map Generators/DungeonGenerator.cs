@@ -29,10 +29,10 @@ public class DungeonGenerator : MonoBehaviour
     {
         FillMap();
         GenerateEmptyTiles(50);
-        Smooth(5);
-        GenerateEmptyTiles(60);
-        Smooth(2);
-        GenerateBushTiles(4);
+        Smooth(15);
+      //  GenerateEmptyTiles(60);
+      //  Smooth(2);
+      //  GenerateBushTiles(4);
         //Set tiles invisible so player doesn't see the whole map
         SetTilesInvisible();
     }
@@ -109,8 +109,8 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         for (int oy = -1; oy < 2; oy++)
                         {
-                            if (x + ox < 0 || x + ox >= _width || y + oy < 0
-                                    || y + oy >= _height)
+                            if (x + ox < 1 || x + ox > _width || y + oy < 1
+                                    || y + oy > _height)
                                 continue;
                             if (_tilemap.GetTile(new Vector3Int(x + ox, y + oy, 0)).name == "00ground0")
                                 grounds++;
@@ -118,11 +118,12 @@ public class DungeonGenerator : MonoBehaviour
                                 walls++;
                         }
                     }
-                    if (grounds >= walls)
+
+                    if (grounds > walls)
                     {
                         tempTiles.SetTile(new Vector3Int(x, y, 0), _tileset[0]);
                     }
-                    else
+                    else if (walls > grounds)
                         tempTiles.SetTile(new Vector3Int(x, y, 0), _tileset[1]);
                 }
             }

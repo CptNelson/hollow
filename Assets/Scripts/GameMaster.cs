@@ -11,19 +11,22 @@ public class GameMaster : MonoBehaviour
     public static List<Entity> entitiesList;
     public static Entity player;
     public static ActionManager actionManager;
-    public static int width = 54;
-    public static int height = 32;
+    public static int width = 100;
+    public static int height = 60;
     public static Entity ui;
 
     public Canvas canvas;
     public Text text;
 
+    public static Camera _camera;
+    
     private Utils utils;
     private static Tilemap _tilemap;
     private EntitySpawner _entitySpawner;
 
     void Start()
     {
+        _camera = Camera.main;
         Init();
         //start the game loop
         StartCoroutine(GameLoop());
@@ -32,6 +35,7 @@ public class GameMaster : MonoBehaviour
     // Use this for initialization
     void Init()
     {
+        
         //create the level and entities
         CreateLevel();
         AddEntities();

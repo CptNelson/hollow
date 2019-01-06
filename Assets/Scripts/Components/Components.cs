@@ -160,6 +160,11 @@ public class AIComponent : Component
     {
         _entity = entity;
 
+
+        _action = new Walk(entity, Utils.GetRandomInt(-1, 2), Utils.GetRandomInt(-1, 2));
+
+        return _action;
+
         //reset _action.
         if (_action != null)
         {
@@ -190,6 +195,8 @@ public class AIComponent : Component
         //should patrol be another AIComponent?
         _action = new Patrol(entity, entity.GetComponent<ActionComponent>().Goal);
         //Debug.Log("set: " + _action);
+
+        _action = new Walk(entity, Utils.GetRandomInt(-1,2), Utils.GetRandomInt(-1, 2));
 
         return _action;
     }

@@ -58,6 +58,7 @@ public class Patrol : IAction
 
     public Patrol(Entity entity, Vector3Int goal)
     {
+
         _entity = entity;
         _goal = goal;
         List<Vector3Int> path = new List<Vector3Int>();
