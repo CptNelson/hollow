@@ -10,7 +10,8 @@ public class DungeonGenerator : MonoBehaviour
     private static GameObject _map;
     private static int _width;
     private static int _height;
-
+    private static int[,] regions;
+    private static int nextRegion;
 
     public static void Create(int width, int height)
     {
@@ -30,11 +31,27 @@ public class DungeonGenerator : MonoBehaviour
         FillMap();
         GenerateEmptyTiles(50);
         Smooth(15);
+        
+        CreateRegions();
       //  GenerateEmptyTiles(60);
       //  Smooth(2);
       //  GenerateBushTiles(4);
         //Set tiles invisible so player doesn't see the whole map
         SetTilesInvisible();
+    }
+
+    private static void Connect()
+    {
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                if (_tilemap.GetTile(new Vector3Int(x, y, 0)).name == "00ground0")
+                {
+
+                }
+            }
+        }
     }
 
     //Fill map with wall tiles
@@ -45,6 +62,80 @@ public class DungeonGenerator : MonoBehaviour
             for (int y = 0; y < _height; y++)
             {
                 _tilemap.SetTile(new Vector3Int(x, y, 0), _tileset[1]);
+            }
+        }
+    }
+
+    private static void CreateRegions()
+    {
+        nextRegion = 1;
+        regions = new int[_width, _height];
+
+
+
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                if (_tilemap.GetTile(new Vector3Int(x,y,0)).name != "01wall0" && regions[x,y] == 0)
+                {
+
+                    int size = fillRegion(nextRegion++, x, y);
+                   // return;
+                    if (size < 46)
+                        removeRegion(nextRegion - 1, 0);
+                }
+            }
+        }
+    }
+
+    private static int fillRegion(int region, int x, int y)
+    {
+        int size = 1;
+        List<Vector3Int> open = new List<Vector3Int>();
+        open.Add(new Vector3Int(x, y, 0));
+        regions[x,y] = region;
+
+        while (open.Count > 0 )
+        {
+           // Debug.Log("asd1: " + open.Count + " test: " + test);
+            Vector3Int p = open[0];
+            open.RemoveAt(0);
+
+            List<Vector3Int> neighbors = Utils.GetNeighbors(p);
+
+            foreach(Vector3Int n in neighbors)
+            {
+                if (n.x < 0 || n.y < 0 || n.x >= _width || n.y >= _height)
+                    continue;   
+
+                if (regions[n.x, n.y] > 0 || _tilemap.GetTile(new Vector3Int(n.x, n.y, 0)).name == "01wall0") {
+
+                    continue;
+                }
+
+                size++;
+                regions[n.x, n.y] = region;
+                open.Add(n);
+
+            }
+
+        }
+        Debug.Log("open: " + open.Count);
+        return size;
+    }
+
+    private static void removeRegion(int region, int z)
+    {
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                if (regions[x,y] == region)
+                {
+                    regions[x,y] = 0;
+                    _tilemap.SetTile(new Vector3Int(x, y, 0), _tileset[1]);
+                }
             }
         }
     }
